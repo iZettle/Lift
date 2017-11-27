@@ -65,7 +65,7 @@ case "$COMMAND" in
     exit 0;
   ;;
 
-  "test-swift")
+  "test-native")
     swift package clean
     swift build
     swift test
