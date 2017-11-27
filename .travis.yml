@@ -6,7 +6,7 @@ env:
   - LANG=en_US.UTF-8
   matrix:
   - COMMAND="test-iOS"
-  - COMMAND="test-swift"
+  - COMMAND="test-native"
 script:
 - set -o pipefail
 - xcodebuild -version

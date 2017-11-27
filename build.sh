@@ -22,7 +22,7 @@ Usage: sh $0 command
   [Testing]
 
   test-iOS      Run tests on iOS host
-  test-swift	Run tests using `swift test`
+  test-native	Run tests using `swift test`
 EOF
 }
 
