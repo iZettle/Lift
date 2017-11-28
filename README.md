@@ -550,7 +550,7 @@ struct LiftError: Error {
 }
 ```
 
-Because the context and key-path are really valuable during debugging, it's important to not loose those when throwing validation errors. Hence, Lift has added assert helper methods to `Jar` that you should use:
+Because the context and key-path are really valuable during debugging, it's important to not lose those when throwing validation errors. Hence, Lift has added assert helper methods to `Jar` that you should use:
 
 ```swift
 init(jar: Jar) throws {
