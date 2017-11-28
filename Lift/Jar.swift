@@ -18,7 +18,7 @@ import Foundation
 /// For a value to be liftable it must conform to `Liftable` or `JarConvertible`
 public struct Jar {
     internal var object: Object
-    internal var key: () -> String = { "" } // Capturing of the current key used for lazy evalution (to avoid a peformance hit for happy cases)
+    internal var key: () -> String = { "" } // Capturing of the current key used for lazy evaluation (to avoid a peformance hit for happy cases)
     public var context: Context = []
 }
 
