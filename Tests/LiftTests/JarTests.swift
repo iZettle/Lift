@@ -10,8 +10,6 @@ import XCTest
 import Lift
 import Foundation
 
-infix operator ^
-
 class JarTests: XCTestCase {
     func testInteger() throws {
         let original = 4711
