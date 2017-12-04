@@ -71,6 +71,7 @@ Check the [Usage](#usage) section for more information and examples.
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Note on `Codable`](#note-on-codable)
 - [Usage](#usage)
  	- [Introduction](#introduction)
 	- [JSON Serialization](#json-serialization)
