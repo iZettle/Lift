@@ -41,8 +41,6 @@
 		21E1D3BA1D94118800A91CA0 /* Jar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jar+Additions.swift"; sourceTree = "<group>"; };
 		21E1D3BB1D94118800A91CA0 /* JarElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JarElement.swift; sourceTree = "<group>"; };
 		21E1D3BC1D94118800A91CA0 /* JarElement+Primitives.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JarElement+Primitives.swift"; sourceTree = "<group>"; };
-		21E1D3C51D94122D00A91CA0 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Framework.xcconfig; path = ../../Configurations/Framework.xcconfig; sourceTree = "<group>"; };
-		21E1D3C61D94122D00A91CA0 /* FrameworkTest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = FrameworkTest.xcconfig; path = ../../Configurations/FrameworkTest.xcconfig; sourceTree = "<group>"; };
 		B359778F1E57087000FB4ABF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B35977911E57087000FB4ABF /* JarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarTests.swift; sourceTree = "<group>"; };
 		CDDE32941EC3400200867A95 /* IntegerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerTests.swift; sourceTree = "<group>"; };
@@ -50,7 +48,6 @@
 		F6AD1F0B1E2CD1150082CF27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F6AD1F0C1E2CD14E0082CF27 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		F6AD20241E2FAED20082CF27 /* Lift.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Lift.podspec; sourceTree = "<group>"; };
-		F6B704411FC6B1FD00808AE5 /* lift-logo.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "lift-logo.svg"; sourceTree = "<group>"; };
 		F6F4E6F91E9263600013050A /* Jar+Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jar+Context.swift"; sourceTree = "<group>"; };
 		F6F4E6FB1E92642B0013050A /* Jar+Expressible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jar+Expressible.swift"; sourceTree = "<group>"; };
 		F6F4E6FD1E9264480013050A /* Jar+Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jar+Object.swift"; sourceTree = "<group>"; };
@@ -85,9 +82,7 @@
 				F6AD1F0C1E2CD14E0082CF27 /* CHANGELOG.md */,
 				F6AD1F091E2CD0820082CF27 /* LICENCE.md */,
 				F6AD1F0B1E2CD1150082CF27 /* README.md */,
-				F6B704411FC6B1FD00808AE5 /* lift-logo.svg */,
 				F6AD20241E2FAED20082CF27 /* Lift.podspec */,
-				21E1D3C41D9411FE00A91CA0 /* Dependencies */,
 				21E1D3A11D9410F000A91CA0 /* Lift */,
 				21E1D3A01D9410F000A91CA0 /* Products */,
 				B359778E1E57087000FB4ABF /* Tests */,
@@ -120,15 +115,6 @@
 				21E1D3A31D9410F000A91CA0 /* Info.plist */,
 			);
 			path = Lift;
-			sourceTree = "<group>";
-		};
-		21E1D3C41D9411FE00A91CA0 /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				21E1D3C51D94122D00A91CA0 /* Framework.xcconfig */,
-				21E1D3C61D94122D00A91CA0 /* FrameworkTest.xcconfig */,
-			);
-			name = Dependencies;
 			sourceTree = "<group>";
 		};
 		B359778E1E57087000FB4ABF /* Tests */ = {
@@ -403,7 +389,6 @@
 		};
 		21E1D3B41D9410F000A91CA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E1D3C51D94122D00A91CA0 /* Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -424,7 +409,6 @@
 		};
 		21E1D3B51D9410F000A91CA0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E1D3C51D94122D00A91CA0 /* Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -445,7 +429,6 @@
 		};
 		21E1D3B71D9410F000A91CA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E1D3C61D94122D00A91CA0 /* FrameworkTest.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -460,7 +443,6 @@
 		};
 		21E1D3B81D9410F000A91CA0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E1D3C61D94122D00A91CA0 /* FrameworkTest.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
