@@ -44,10 +44,11 @@
 		B359778F1E57087000FB4ABF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B35977911E57087000FB4ABF /* JarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarTests.swift; sourceTree = "<group>"; };
 		CDDE32941EC3400200867A95 /* IntegerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerTests.swift; sourceTree = "<group>"; };
-		F6AD1F091E2CD0820082CF27 /* LICENCE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENCE.md; sourceTree = "<group>"; };
 		F6AD1F0B1E2CD1150082CF27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F6AD1F0C1E2CD14E0082CF27 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		F6AD20241E2FAED20082CF27 /* Lift.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Lift.podspec; sourceTree = "<group>"; };
+		F6C6F53F1FDA7FC000D15FA2 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE.txt; path = "../swift-source-compat-suite/LICENSE.txt"; sourceTree = "<group>"; };
+		F6C6F5401FDA7FFE00D15FA2 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		F6F4E6F91E9263600013050A /* Jar+Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jar+Context.swift"; sourceTree = "<group>"; };
 		F6F4E6FB1E92642B0013050A /* Jar+Expressible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jar+Expressible.swift"; sourceTree = "<group>"; };
 		F6F4E6FD1E9264480013050A /* Jar+Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jar+Object.swift"; sourceTree = "<group>"; };
@@ -79,10 +80,11 @@
 		21E1D3951D9410F000A91CA0 = {
 			isa = PBXGroup;
 			children = (
-				F6AD1F0C1E2CD14E0082CF27 /* CHANGELOG.md */,
-				F6AD1F091E2CD0820082CF27 /* LICENCE.md */,
 				F6AD1F0B1E2CD1150082CF27 /* README.md */,
+				F6AD1F0C1E2CD14E0082CF27 /* CHANGELOG.md */,
+				F6C6F53F1FDA7FC000D15FA2 /* LICENSE.txt */,
 				F6AD20241E2FAED20082CF27 /* Lift.podspec */,
+				F6C6F5401FDA7FFE00D15FA2 /* Package.swift */,
 				21E1D3A11D9410F000A91CA0 /* Lift */,
 				21E1D3A01D9410F000A91CA0 /* Products */,
 				B359778E1E57087000FB4ABF /* Tests */,
@@ -191,7 +193,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = iZettle;
 				TargetAttributes = {
 					21E1D39E1D9410F000A91CA0 = {
@@ -380,6 +382,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
