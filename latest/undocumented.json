@@ -1,0 +1,145 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/Jar+Context.swift",
+      "line": 13,
+      "symbol": "JarContextValue.context",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/Jar+Context.swift",
+      "line": 30,
+      "symbol": "Jar.Context.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/Jar+Context.swift",
+      "line": 36,
+      "symbol": "Jar.Context.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/Jar+Context.swift",
+      "line": 82,
+      "symbol": "JarContextValue.context",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/Jar+Context.swift",
+      "line": 86,
+      "symbol": "Jar.Context.context",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/Jar.swift",
+      "line": 22,
+      "symbol": "Jar.context",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement+Primitives.swift",
+      "line": 114,
+      "symbol": "Null.lift(from:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement+Primitives.swift",
+      "line": 139,
+      "symbol": "NSDecimalNumber.lift(from:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement+Primitives.swift",
+      "line": 154,
+      "symbol": "DateFormatter.iso8601",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement+Primitives.swift",
+      "line": 170,
+      "symbol": "Date.asJar(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement+Primitives.swift",
+      "line": 187,
+      "symbol": "RawRepresentable.init(jar:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement+Primitives.swift",
+      "line": 192,
+      "symbol": "RawRepresentable.jar",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement.swift",
+      "line": 16,
+      "symbol": "Liftable.lift(from:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement.swift",
+      "line": 26,
+      "symbol": "JarConvertible.lift(from:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement.swift",
+      "line": 42,
+      "symbol": "JarRepresentableWithContext.asJar(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement.swift",
+      "line": 46,
+      "symbol": "JarRepresentableWithContext.jar",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement.swift",
+      "line": 52,
+      "symbol": "JarRepresentable.asJar(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/JarElement.swift",
+      "line": 59,
+      "symbol": "JarRepresentable.asJar(using:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/ValueForKey.swift",
+      "line": 16,
+      "symbol": "ValueForKey.value(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/said/Developer/Lift/Lift/Lift/ValueForKey.swift",
+      "line": 24,
+      "symbol": "MutatingValueForKey.set(_:forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/said/Developer/Lift/Lift"
+}
