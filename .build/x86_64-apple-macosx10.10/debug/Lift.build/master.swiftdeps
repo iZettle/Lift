@@ -1,0 +1,15 @@
+version: "Apple Swift version 4.0.2 (swiftlang-900.0.69.2 clang-900.0.38)"
+options: "0f4052d96c87b3cb6422f5ed679ea250"
+build_time: [1512121121, 328388000]
+inputs:
+  "/Users/said/Developer/Lift/Lift/Jar+Additions.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/Jar+Array.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/Jar+Context.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/Jar+Dictionary.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/Jar+Expressible.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/Jar+Object.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/Jar.swift": [1512120821, 0]
+  "/Users/said/Developer/Lift/Lift/JarElement+Primitives.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/JarElement.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/LiftError.swift": [1511786797, 0]
+  "/Users/said/Developer/Lift/Lift/ValueForKey.swift": [1511786797, 0]
