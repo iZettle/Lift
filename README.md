@@ -12,7 +12,7 @@ Lift is a Swift library for generating and extracting values into and out of JSO
 - Use easy and intuitive syntax using subscripting.
 - Be extendable for use with your custom types.
 - Support of retroactive modeling/conformance.
-- Don't enforce how to structure your data models.
+- Do not enforce how to structure your data models.
 - Be type safe and explicit about errors.
 - Work with any key value structured data such as p-lists and user defaults.
 - Provide detailed errors and support custom validation.
@@ -20,7 +20,7 @@ Lift is a Swift library for generating and extracting values into and out of JSO
 
 ### Example usage
 
-Lift is simple, yet powerful. Let's see how to use it with a custom type:
+Lift is simple, yet powerful. Let us see how to use it with a custom type:
 
 ```swift
 struct User {
@@ -52,7 +52,7 @@ let jar = try Jar(json: json)
 var users: [User] = try jar^
 ```
 
-And it's as easy to move you model values back to JSON:
+And it is as easy to move your model values back to JSON:
 
 ```swift
 users.append(User(name: "Junior", age: 2))
@@ -62,7 +62,7 @@ let newJson = try String(json: Jar(users), prettyPrinted: true)
 Lift will even work with other JSON-like structured data such as p-lists and `UserDefaults`:
 
 ```swift
-let users [User] = try UserDefaults.standard["users"]^
+let users: [User] = try UserDefaults.standard["users"]^
 ```
 
 Check the [Usage](#usage) section for more information and examples.
@@ -73,18 +73,20 @@ Check the [Usage](#usage) section for more information and examples.
 - [Installation](#installation)
 - [Note on `Codable`](#note-on-codable)
 - [Usage](#usage)
- 	- [Introduction](#introduction)
+	- [Introduction](#introduction)
 	- [JSON Serialization](#json-serialization)
-  	- [Generating JSON](#generating-json)
-  	- [Modifying JSON](#modifiying-json)
-  	- [Arrays](#arrays)
-  	- [Missing values](#missing-values)
-  	- [Heterogenuos values](#heterogenuos-values)
-  	- [Transformation of values](#transformation-of-values)
-  	- [Beyond JSON](#beyond-json)
-  	- [Handling custom types](#handling-custom-types)
-  	- [Model structure](#model-structure)
-  	- [Handling errors](#handling-errors)
+	- [Generating JSON](#generating-json)
+	- [Modifying JSON](#modifiying-json)
+	- [Arrays](#arrays)
+	- [Missing values](#missing-values)
+	- [Heterogenuos values](#heterogenuos-values)
+	- [Transformation of values](#transformation-of-values)
+	- [Beyond JSON](#beyond-json)
+	- [Handling custom types](#handling-custom-types)
+	- [Model structure](#model-structure)
+	- [Handling errors](#handling-errors)
+- [Field tested](#field-tested)
+- [Learn more](#learn-more)
 
 ## Requirements
 
@@ -133,13 +135,13 @@ let package = Package(
 
 ## Note on `Codable`
 
-Swift 4 introduced `Codable` with the "promise" to have solved working with JSON once and for all. And yes, many of the examples shown are just close to magic. But when your models start to diverge from the simple one to one mapping between model and JSON, the magic seems to go away. Now you are back to implement everything yourself and this using a quite verbose API. The current version of Swift also lack APIs for building and parsing JSON on the fly (not going through model objects) which is common when e.g. building and parsing network requests. Hence, we believe the demand for third party JSON libraries will still be there for some time to come.
+Swift 4 introduced `Codable` with the "promise" to have solved working with JSON once and for all. And yes, many of the examples shown are just close to magic. But when your models start to diverge from the simple ones to ones mapping between model and JSON, the magic seems to go away. Now you are back to implementing everything yourself and this using a quite verbose API. The current version of Swift also lacks APIs for building and parsing JSON on the fly (not going through model objects) which is common when e.g. building and parsing network requests. Hence, we believe the demand for third party JSON libraries will still be there for some time to come.
 
 ## Usage
 
 ### Introduction
 
-Let's start out with a simple example of how to extract data from some key value structured data such as JSON:
+Let us start out with a simple example of how to extract data from some key value structured data such as JSON:
 
 ```swift
 let jar: Jar = ["name": "Lift", "version": 1.0]
@@ -360,7 +362,7 @@ let dict: Jar = try jar[2]^
 
 ### Transformation of values
 
-You sometimes need to transform the values extracted from a `Jar` before using it. This might happen when you are working with types that cannot conform to `JarRepresentable`, such as when using tuples:
+You sometimes need to transform the values extracted from a `Jar` before using them. This might happen when you are working with types that cannot conform to `JarRepresentable`, such as when using tuples:
 
 ```swift
 typealias User = (name: String, age: Int)
@@ -379,10 +381,9 @@ let payments: [Payment] = try jar["payments"].map { jar in
 
 Even though you can use `map` for additional initialization data, often it is more convenient to add this data to the jar's context instead. Jar contexts will be described further down.
 
-
 ### Beyond JSON
 
-Setting and getting values of unknown types is not unique to JSON. Many Cocoa APIs use dictionaries and many of them are based on similar principles as JSON, such as p-lists. Lift provides protocols for extending these types to be able to access the power of Lift. E.g. Lift already extends UserDefaults:
+Setting and getting values of unknown types is not unique to JSON. Many Cocoa APIs use dictionaries and many of them are based on similar principles as JSON, such as p-lists. Lift provides protocols for extending those types to grant them  access the power of Lift. E.g. Lift already extends UserDefaults:
 
 ```swift
 // extension UserDefaults: MutatingValueForKey { }
@@ -397,7 +398,7 @@ let payments: [Payments] = try userDefaults["payments"]^ ?? []
 
 ### JarConvertible & JarRepresentable
 
-Out of the box, the Lift library supports JSON dictionaries, arrays and its primitive types: string, number, bool and null. But it's easy to extend your own types to work with the Lift library as well.
+Out of the box, the Lift library supports JSON dictionaries, arrays and its primitive types: string, number, bool and null. But it is easy to extend your own types to work with the Lift library as well.
 
 To be able extract values out of a `Jar` using the lift operator `^`, you conform your type to the `JarConvertible` protocol:
 
@@ -415,7 +416,7 @@ protocol JarRepresentable {
 }
 ```
 
-It is common we want to implement both these protocols hence the convenience `JarElement` type alias:
+It is common to implement both these protocols hence the convenience `JarElement` type alias:
 
 ```swift
 typealias JarElement = JarConvertible & JarRepresentable
@@ -480,7 +481,7 @@ let str: String = try jar["enum"]^ // -> "two"
 let myEnum: MyEnum = try jar["enum"]^ // -> .two
 ```
 
-If your type is a non-final class you can't retroactively conform it to `JarConvertible` as it requires you to implement a required init. Instead you have to use the `Liftable` protocol:
+`JarConvertible` requires you to implement a required init. This can be problematic if you work with non-final classes where you cannot update the source itself, such as when the class originates from Objective-C or another external source. In those cases you have to use the `Liftable` protocol instead:
 
 ```swift
 extension MyClass: Liftable {
@@ -551,7 +552,7 @@ struct LiftError: Error {
 }
 ```
 
-Because the context and key-path are really valuable during debugging, it's important to not lose those when throwing validation errors. Hence, Lift has added assert helper methods to `Jar` that you should use:
+Because the context and key-path are really valuable during debugging, it is important to not lose those when throwing validation errors. Hence, Lift has added special assert helper methods to `Jar` that you are encouraged to use:
 
 ```swift
 init(jar: Jar) throws {
@@ -636,6 +637,16 @@ extension Payment: JarElement {
 
 let payment: Payment = try jar.union(context: currency)["payment"]^
 ```
+
+## Field tested
+
+Lift was developed, evolved and field-tested over the course of several years, and is pervasively used in [iZettle](https://izettle.com)'s highly acclaimed point of sales app for communicating with iZettle's comprehensive set of backend services.
+
+## Learn more
+
+To learn more about how Lift's APIs turned the way they did, we recommend reading the article:
+
+- [API Design - Deriving Lift](https://medium.com/izettle-engineering/deriving-lift-d83f8b6d0b38)
 
 <hr>
 
