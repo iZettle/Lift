@@ -55,10 +55,104 @@ public extension JarRepresentable {
         }
         return jar.union(context: context)
     }
-
+    
     func asJar(using contextValues: JarContextValue?...) -> Jar {
         return asJar(using: Jar.Context(contextValues))
     }
 }
 
- 
+
+extension Optional: JarRepresentable where Wrapped: JarRepresentable {
+    public var jar: Jar {
+        switch self {
+        case let val?:
+            return Jar(val)
+        case nil:
+            return Jar()
+        }
+    }
+}
+
+extension Optional: Liftable where Wrapped: Liftable, Wrapped.To == Wrapped {
+    public typealias To = Optional<Wrapped>
+    public static func lift(from jar: Jar) throws -> Optional<Wrapped> {
+        switch jar.object {
+        case .none:
+            return .none
+        case .null where type(of: Wrapped.self) != type(of: Null.self):
+            return .none
+        case .jarRepresentable(let jarRepresentable):
+            return try lift(from: jarRepresentable.jar)
+        default:
+            return try Wrapped.lift(from: jar)
+        }
+    }
+}
+
+extension Optional: JarConvertible where Wrapped: JarConvertible, Wrapped.To == Wrapped {
+    public init(jar: Jar) throws {
+        self = try Wrapped?.lift(from: jar)
+    }
+}
+
+
+extension Array: JarRepresentable where Element: JarRepresentable {
+    public var jar: Jar {
+        return Jar(object: .array([ (nil, { context in
+            try self.map { $0.asJar(using: context) }.compactMap {
+                return try $0.object.optionallyUnwrap($0.context).flatMap { $0 }
+            }
+        })]))
+    }
+}
+
+extension Array: Liftable where Element: Liftable, Element.To == Element {
+    public typealias To = [Element]
+    public static func lift(from jar: Jar) throws -> [Element] {
+        return try jar.assertNotNil(jar.array, "Not an array").enumerated().map { i, any in
+            let itemJar = Jar(object: Jar.Object(any), context: jar.context, key: { jar.key() + "[\(i)]" })
+            return try Element.lift(from: itemJar)
+        }
+    }
+}
+
+extension Array: JarConvertible where Element: JarConvertible, Element.To == Element {
+    public init(jar: Jar) throws {
+        self = try [Element].lift(from: jar)
+    }
+}
+
+
+extension Dictionary: JarRepresentable where Key: CustomStringConvertible, Value: JarRepresentable  {
+    public var jar: Jar {
+        return Jar(object: .dictionary([{ context in
+            var result = [String: Any]()
+            for (key, val) in self {
+                result[key.description] = try val.asJar(using: context).object.optionallyUnwrap(context)
+            }
+            return result
+            }]))
+    }
+}
+
+extension Dictionary: Liftable where Key: Liftable, Value: Liftable, Key.To == Key, Value.To == Value {
+    public typealias To = [Key: Value]
+    public static func lift(from jar: Jar) throws -> [Key: Value] {
+        let dictionary = try jar.assertNotNil(jar.dictionary, "Not a dictionary")
+        let keys: [Key] = try Jar(unchecked: Array(dictionary.keys)).union(context: jar.context)^
+        let values: [Value] = try Jar(unchecked: Array(dictionary.values)).union(context: jar.context)^
+        var mappedDictionary = [Key: Value]()
+        for (key, value) in zip(keys, values) {
+            mappedDictionary[key] = value
+        }
+        return mappedDictionary
+    }
+}
+
+extension Dictionary: JarConvertible where Key: JarConvertible, Value: JarConvertible, Key.To == Key, Value.To == Value {
+    public init(jar: Jar) throws {
+        self = try [Key: Value].lift(from: jar)
+    }
+}
+
+

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Lift"
-  s.version      = "1.0.0"
+  s.version      = "2.0.0"
   s.summary      = "Working with JSON-like structures"
   s.description  = <<-DESC
                    Lift is a Swift library for generating and extracting values into and out of JSON-like structures.
@@ -14,4 +14,5 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/iZettle/Lift.git", :tag => "#{s.version}" }
   s.source_files = "Lift/*.{swift}"
+  s.swift_version = '4.1'
 end

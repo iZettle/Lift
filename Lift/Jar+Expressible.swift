@@ -9,10 +9,10 @@
 import Foundation
 
 extension Jar: ExpressibleByDictionaryLiteral {
-    public init(dictionaryLiteral elements: (String, JarRepresentable)...) {
-        var dict = [String: JarRepresentable]()
+    public init(dictionaryLiteral elements: (CustomStringConvertible, JarRepresentable)...) {
+        var dict = [String: Jar]()
         for (key, value) in elements {
-            dict[key] = value
+            dict[key.description] = Jar(value)
         }
         self.init(dict)
     }
@@ -21,7 +21,7 @@ extension Jar: ExpressibleByDictionaryLiteral {
 extension Jar: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: JarRepresentable...) {
         object = .array([ (nil, { context in
-            try elements.flatMap { try $0.asJar(using: context).object.optionallyUnwrap(context).flatMap { $0 } }
+            try elements.compactMap { try $0.asJar(using: context).object.optionallyUnwrap(context).flatMap { $0 } }
         })])
     }
 }

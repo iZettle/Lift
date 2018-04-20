@@ -28,7 +28,7 @@ public extension Jar {
         }
 
         public init(_ vals: [JarContextValue?] = []) {
-            for val in vals.flatMap({ $0 }) {
+            for val in vals.compactMap({ $0 }) {
                 self.vals[String(reflecting: type(of: val))] = val
             }
         }

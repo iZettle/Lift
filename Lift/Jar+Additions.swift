@@ -23,6 +23,11 @@ public extension Data {
             self = try jar.assertNotNil("\(any)".data(using: .utf8))
         }
     }
+
+    /// Construct a JSON string `Data` from a `JarRepresentable`
+    init(json jarRepresentable: JarRepresentable, prettyPrinted: Bool = true) throws {
+        try self.init(json: jarRepresentable.jar, prettyPrinted: prettyPrinted)
+    }
 }
 
 public extension String {
@@ -30,6 +35,11 @@ public extension String {
     init(json jar: Jar, prettyPrinted: Bool = true) throws {
         let data = try Data(json: jar, prettyPrinted: prettyPrinted)
         self = try jar.assertNotNil(String(data: data, encoding: .utf8))
+    }
+    
+    /// Construct a JSON `String` from a `JarRepresentable`
+    init(json jarRepresentable: JarRepresentable, prettyPrinted: Bool = true) throws {
+        try self.init(json: jarRepresentable.jar, prettyPrinted: prettyPrinted)
     }
 }
 

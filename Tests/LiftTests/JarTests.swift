@@ -24,14 +24,14 @@ class JarTests: XCTestCase {
         let i3 = try value^ as Int
         XCTAssertEqual(i3, original)
 
-        let i4: Int = try value.map { $0 * 2 }
+        let i4: Int = try value^ * 2
         XCTAssertEqual(i4, original*2)
 
         XCTAssertEqual(try value^ as Int, original)
         XCTAssertEqual(try (value^ as Int) * 2, original*2)
         
         
-        var json: Jar = [ "val": original, "dict": [ "sub": 44 ] as Jar ]
+        var json: Jar = [ "val": original, "dict": [ "sub": 44 ] ]
         
         let i5: Int = try json["val"]^
         XCTAssertEqual(i5, original)
@@ -46,6 +46,10 @@ class JarTests: XCTestCase {
         json["dict"]["sub"] = 55
         let i7: Int = try json["dict"]["sub"]^
         XCTAssertEqual(i7, 55)
+        
+        let nilJar = Jar(Int?.none)
+        let i8: Int? = try nilJar^
+        XCTAssertEqual(i8, nil)
     }
     
     func testDate() throws {
@@ -54,7 +58,7 @@ class JarTests: XCTestCase {
         
         let d1: Date = try value^
         XCTAssertEqual(d1, original)
-        let d2: Date = try value.map(fromIso8601)
+        let d2: Date = try fromIso8601(value^)
         XCTAssertEqual(d2, original)
         
         var json: Jar = ["date": original]
@@ -91,7 +95,30 @@ class JarTests: XCTestCase {
         
         XCTAssertEqual(Jar(url).description, "http://izettle.com")
     }
+    
+    func testJarToJar() throws {
+        var jar: Jar = ["val1": 1, "val2": 2]
+        let jar1: Jar = jar["val1"]
+        let jar2: Jar = try jar["val1"]^
+        XCTAssertEqual(try jar1^, 1)
+        XCTAssertEqual(try jar2^, 1)
+    }
+    
+    func testAddNoneJarToDictionary() throws {
+        var jar: Jar = ["val1": 1, "val2": 2]
+        jar["val3"] = Jar()
+        XCTAssertEqual(try jar["val1"]^, 1)
+    }
 
+    func testAddNoneJarToArray() throws {
+        var jar: Jar = [1, 2]
+        jar.append(Jar())
+        jar[1] = Jar() as JarRepresentable
+        XCTAssertEqual(try jar[0]^, 1)
+        XCTAssertEqual(try jar[1]^, 2)
+        XCTAssertEqual(try (jar^ as [Int]).count, 2)
+    }
+    
     struct Test: JarElement {
         var val: Int = 47
         
@@ -118,7 +145,7 @@ class JarTests: XCTestCase {
 
 
         let testsJson: Jar = [ Test(), Test() ]
-        let tests: Array = try testsJson.map { try Test(jar: $0) }
+        let tests = try (testsJson^ as Array).map { try Test(jar: $0) }
         XCTAssertEqual(tests[0].val, 47)
     }
     
@@ -173,7 +200,7 @@ class JarTests: XCTestCase {
         let a33: [Int] = try l3^
         XCTAssertEqual(a33[2], 7)
 
-        let json: Jar = ["key": Jar([ Jar(["val" : 1]), Jar(["val" : 2]) ])]
+        let json: Jar = ["key": [ ["val" : 1], ["val" : 2] ]]
         
         let i1: Int = try json["key"][0]["val"]^
         XCTAssertEqual(i1, 1)
@@ -183,13 +210,13 @@ class JarTests: XCTestCase {
         XCTAssertEqual(i2, 48)
 
         let a4: Jar = ["1", "2"]
-        let i2s: [Int] = try a4.map { try Int($0).assertNotNil() }
+        let i2s: [Int] = try (a4^ as Array).map { try Int($0).assertNotNil() }
         XCTAssertEqual(i2s[1], 2)
 
-        let i3s: [Int] = try a4.map { try Int($0).assertNotNil() } ?? []
+        let i3s: [Int] = try (a4^ as Array?).map { try $0.map { try Int($0).assertNotNil() } } ?? []
         XCTAssertEqual(i3s[0], 1)
 
-        let i4s: [Int] = try json["missing"].map { try Int($0).assertNotNil() } ?? [4, 5]
+        let i4s: [Int] = try (json["missing"]^ as Array?).map { try $0.map { try Int($0).assertNotNil() } } ?? [4, 5]
         XCTAssertEqual(i4s[0], 4)
     }
     
@@ -205,10 +232,10 @@ class JarTests: XCTestCase {
             func sortTuple<T, U>(lhs: (T, U), rhs: (T, U)) -> Bool where T: Comparable {
                 return lhs.0 < rhs.0
             }
-            let v3: [(String, String)] = try j1.map { $0.map { $0 }.sorted(by: sortTuple) }
+            let v3: [(String, String)] = try (j1^ as Dictionary).map { $0 }.sorted(by: sortTuple)
             XCTAssertTrue(v3.sorted(by: sortTuple)[1] == ("2", "2"))
             
-            let v4: [(String, Bool)]? = try j1.map { $0.map { $0 }.sorted(by: sortTuple) }
+            let v4: [(String, Bool)]? = try (j1^ as Dictionary).map { $0 }.sorted(by: sortTuple)
             XCTAssertTrue(v4![2] == ("3", true))
             
             let v5: [Int: String] = try j1^
@@ -222,11 +249,18 @@ class JarTests: XCTestCase {
     func testMapTuple() throws {
         let jar: Jar = ["name": "Adam", "age": 25]
         typealias NameAndAge = (name: String, age: Int)
-        let nameAndAge: NameAndAge = try jar.map { (jar: Jar) in try (jar["name"]^, jar["age"]^) }
+        let nameAndAge: NameAndAge = try (jar["name"]^, jar["age"]^)
         XCTAssertEqual(nameAndAge.name, "Adam")
         XCTAssertEqual(nameAndAge.age, 25)
     }
 
+    func testArrayOfTuples() throws {
+        let jar: Jar = [["Adam", 25 as Jar], ["Eve", 20]]
+        typealias NameAndAge = (name: String, age: Int)
+        let nameAndAges: [NameAndAge] = try (jar^ as [Jar]).map { jar in try (jar[0]^, jar[1]^) }
+        XCTAssertEqual(nameAndAges[0].name, "Adam")
+        XCTAssertEqual(nameAndAges[1].age, 20)
+    }
     
     func testUserDefaults() throws {
         UserDefaults.standard["test"] = 4711
@@ -287,7 +321,7 @@ class JarTests: XCTestCase {
             XCTAssertEqual(int, 4)
         }
         
-        print(try String(json: [5, ["val", [1, 2] as Jar] as Jar, Jar([2, 4])], prettyPrinted: false) as Any)
+        print(try String(json: [5, ["val", [1, 2] as Jar], [2, 4]], prettyPrinted: false) as Any)
     }
     
     enum MyEnum: String, JarElement {
@@ -321,14 +355,14 @@ class JarTests: XCTestCase {
 
         let o1: Int? = 5
         let o2: Int? = nil
-        let json2: Jar =  ["val1": Jar(o1), "val2": Jar(o2)]
+        let json2: Jar =  ["val1": o1, "val2": o2]
         let null4: Int = try json2["val1"]^
         XCTAssertEqual(null4, 5)
         let null5: Int? = try json2["val2"]^
         XCTAssertNil(null5)
 
         do {
-            let json3: Jar = [Jar(o2), Jar(o1), Jar(o2)]
+            let json3: Jar = [o2, o1, o2]
             let null6: Int = try json3[0]^
             XCTAssertEqual(null6, 5)
             XCTAssertThrows(try json3[1]^ as Int)
@@ -337,7 +371,7 @@ class JarTests: XCTestCase {
         }
         
         do {
-            let json3: Jar = [Jar(o2), Jar(o1), Jar(o2), null]
+            let json3: Jar = [o2, o1, o2, null]
             let null6: Int = try json3[0]^
             XCTAssertEqual(null6, 5)
             let null7: Int? = try json3[1]^
@@ -351,7 +385,7 @@ class JarTests: XCTestCase {
         }
         
         do {
-            let json3: Jar = [Jar(o2), Jar(o1), Jar(o2), Jar(null)]
+            let json3: Jar = [o2, o1, o2, null  ]
             let null6: Int = try json3[0]^
             XCTAssertEqual(null6, 5)
             XCTAssertThrows(try json3[1]^ as Int)
@@ -433,7 +467,7 @@ class JarTests: XCTestCase {
     }
 
     func testErrorKeyPath() {
-        let jar: Jar = ["val": 5, "val2": Jar(["val3": 3]), "val4": Jar([1, 2, Jar([3, 4])]), "test": Test(), "tests": Jar([Test(), Test()])]
+        let jar: Jar = ["val": 5, "val2": ["val3": 3], "val4": [1, 2, [3, 4] as Jar], "test": Test(), "tests": [Test(), Test()]]
 
         XCTAssertThrows(try jar["val4"]^ as String, isValidError: path("val4"))
         XCTAssertThrows(try jar["val4"]^ as Bool, isValidError: path("val4"))
@@ -442,7 +476,6 @@ class JarTests: XCTestCase {
 
         XCTAssertThrows(try jar["value"]^ as Date, isValidError: path("value"))
         XCTAssertThrows(try jar["val"]^ as Date, isValidError: path("val"))
-        XCTAssertThrows(try jar["val"].map { $0 + 1 } as Date, isValidError: path("val"))
         XCTAssertThrows(try jar["val2"]["value"]^ as Date, isValidError: path("val2.value"))
         XCTAssertThrows(try jar["val2"]["val3"]^ as Date, isValidError: path("val2.val3"))
         XCTAssertThrows(try jar["val4"][1]^ as Date, isValidError: path("val4[1]"))
@@ -477,19 +510,13 @@ class JarTests: XCTestCase {
         let arrayJar: Jar = [1, 2]
         XCTAssertThrows(try arrayJar^ as [Date], isValidError: path("[0]"))
         XCTAssertThrows(try arrayJar^ as [Date]?, isValidError: path("[0]"))
-        XCTAssertThrows(try arrayJar.map { $0 } as [Date], isValidError: path("[0]"))
-        XCTAssertThrows(try arrayJar.map { $0 } as [Date]?, isValidError: path("[0]"))
-
-        
-        XCTAssertThrows(isValidError: path("val")) {
-            let _: Date = try jar["val"].map { (_: Int) -> Date in throw LiftError("Custom Error") }
-            return
-        }
+        XCTAssertThrows(try (arrayJar^ as Array).map { $0 } as [Date], isValidError: path("[0]"))
+        XCTAssertThrows(try (arrayJar^ as Array?).map { $0 } as [Date]?, isValidError: path("[0]"))
 
         var jar1 = jar
         jar1["tests"].append(["f": 1])
         XCTAssertThrows(isValidError: path("tests[2].val")) {
-            let _: [Test] = try jar1["tests"].map { try Test(jar: $0) }
+            let _: [Test] = try (jar1["tests"]^ as Array).map { try Test(jar: $0) }
             return
         }
 
@@ -500,7 +527,7 @@ class JarTests: XCTestCase {
         }
         
         XCTAssertThrows(isValidError: path("tests[2].val")) {
-            let _: [Test]? = try jar1["tests"].map { try Test(jar: $0) }
+            let _: [Test]? = try (jar1["tests"]^ as Array?).map { try $0.map { try Test(jar: $0) } }
             return
         }
         
@@ -519,11 +546,11 @@ class JarTests: XCTestCase {
         }
 
         XCTAssertThrows(isValidError: path("val")) {
-            let _: String = try jar1["val"].map { $0[2]! }
+            let _: String = try (jar1["val"]^ as Dictionary)[2]!
         }
 
         XCTAssertThrows(isValidError: path("val")) {
-            let _: Int? = try jar1["val"].map { $0[2]! }
+            let _: Int? = try (jar1["val"]^ as Dictionary)[2]!
         }
         
         XCTAssertThrows(isValidError: path("tests[1]")) {
@@ -559,8 +586,8 @@ class JarTests: XCTestCase {
         XCTAssertEqual(Jar(47.11).description, "47.11")
         XCTAssertEqual(Jar(null).description, "null")
         XCTAssertEqual(Jar("Hello").description, "Hello")
-        XCTAssertEqual(try String(json: Jar([1, 2]), prettyPrinted: false), "[1,2]")
-        try XCTAssertEqual(String(json: Jar(["val": 2]), prettyPrinted: false), "{\"val\":2}")
+        XCTAssertEqual(try String(json: [1, 2], prettyPrinted: false), "[1,2]")
+        try XCTAssertEqual(String(json: ["val": 2], prettyPrinted: false), "{\"val\":2}")
         
         var jar: Jar = true
         XCTAssertEqual(jar.description, "true")
@@ -603,7 +630,7 @@ class JarTests: XCTestCase {
             var payments: [Payment] = try jar^
             payments[1].date = Date()
             
-            let newJson = try String(json: Jar(payments), prettyPrinted: true)
+            let newJson = try String(json: payments, prettyPrinted: true)
             print(newJson)
         } catch {
             print(error)
@@ -620,7 +647,7 @@ class JarTests: XCTestCase {
             var users: [User] = try jar^
             users.append(User(name: "Junior", age: 2))
             
-            let newJson = try String(json: Jar(users), prettyPrinted: true)
+            let newJson = try String(json: users, prettyPrinted: true)
             print(newJson)
         } catch {
             print(error)
