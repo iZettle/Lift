@@ -23,8 +23,9 @@ extension Jar {
         case primitive(ToAny) /// Typically Bool, Integer, Floating Point or String
         case dictionary([ToAny]) // an array of where all toAny much return a [String: Any] and will be applied left to right
         case array([(Range<Int>?, ToAny)]) // replace range with, unless range == nil where we should append. ToAny have to evaluate to [Any]
+        case jarRepresentable(JarRepresentable)
         case error(Error) /// We already know something went wrong such as a conversion that will result in lifting the value out will throw.
-        
+
         init(_ any: Any?) {
             switch any {
             case nil:
@@ -83,7 +84,11 @@ extension Jar {
                 } else {
                     return v
                 }
-            case let .error(error): throw error
+            case let .jarRepresentable(jarRepresentable):
+                let jar = jarRepresentable.asJar(using: context)
+                return try jar.object.optionallyUnwrap(jar.context)
+            case let .error(error):
+                throw error
             }
         }
         

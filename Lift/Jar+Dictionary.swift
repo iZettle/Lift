@@ -24,7 +24,7 @@ public extension Jar {
         }
         set {
             if let val = newValue {
-                dictionaryAppend({ [ key: try val.asJar(using: $0).asAny() ] })
+                dictionaryAppend({ try val.asJar(using: $0).asAnyOptional().map { [ key: $0 ] } ?? [:] })
             } else {
                 dictionaryAppend({ _ in [ key: Object.RemoveElement() ] })
             }
@@ -47,11 +47,14 @@ public extension Jar {
                 return Jar(object: object, context: context, key: self.key)
             case .dictionary:
                 return Jar(object: Object(dictionary?[key]), context: context, key: _key)
-            default:
+            case .jarRepresentable(let jarRepresentable):
+                return jarRepresentable.asJar(using: context)[key]
+            case .array, .primitive:
                 return Jar(object: .error(LiftError("Not a dictionary", key: "", context: self)), context: context, key: _key)
-            }        }
+            }
+        }
         set {
-            dictionaryAppend({ _ in [ key: try newValue.asAny() ] })
+            dictionaryAppend({ _ in try newValue.asAnyOptional().map { [ key: $0] } ?? [:] })
         }
     }
     
@@ -71,35 +74,6 @@ public extension Jar {
     }
 }
 
-/// Lift a dictionary value out of a Jar
-public postfix func ^<K: Liftable, V: Liftable>(jar: Jar) throws -> [K:V] where V.To == V, K.To == K, K: Hashable {
-    let dictionary = try jar.assertNotNil(jar.dictionary, "Not a dictionary")
-    let keys: [K] = try Jar(unchecked: Array(dictionary.keys)).union(context: jar.context)^
-    let values: [V] = try Jar(unchecked: Array(dictionary.values)).union(context: jar.context)^
-    var mappedDictionary = [K:V]()
-    for (key, value) in zip(keys, values) {
-        mappedDictionary[key] = value
-    }
-    return mappedDictionary
-}
-
-/// Lift an optional dictionary value out of a Jar
-public postfix func ^<K: Liftable, V: Liftable>(jar: Jar) throws -> [K:V]? where V.To == V, K.To == K, K: Hashable {
-    return try jar.map { try $0^ }
-}
-
-public extension Jar {
-    /// Lifts a dictionary of type `[K:V]` and applies `transform` to it
-    func map<K: Liftable, V: Liftable, O>(_ transform: ([K:V]) throws -> O) throws -> O where V.To == V, K.To == K {
-        return try transform(self^)
-    }
-    
-    /// Lifts a dictionary of type `[K:V]`, and if not nil, applies `transform` to it
-    func map<K: Liftable, V: Liftable, O>(_ transform: ([K:V]) throws -> O) throws -> O? where V.To == V, K.To == K {
-        return try map { try $0.map(transform) }
-    }
-}
-
 private extension Jar {
     mutating func dictionaryAppend(_ toAny: @escaping ToAny) {
         switch object {
@@ -109,7 +83,11 @@ private extension Jar {
             object = .dictionary([ toAny ])
         case let .primitive(val):
             object = .dictionary([ val, toAny ])
-        default:
+        case let .jarRepresentable(jarRepresentable):
+            var jar = jarRepresentable.asJar(using: context)
+            jar.dictionaryAppend(toAny)
+            object = jar.object
+        case .array, .error, .null:
             object = .error(LiftError("Not a dictionary", context: self))
         }
     }

@@ -1,5 +1,5 @@
 <p align="center">
-<img src="lift-logo.png" width="140px" />
+<img src="https://github.com/iZettle/Lift/blob/master/lift-logo.png?raw=true" width="140px" />
 </p>
 
 [![Build Status](https://travis-ci.org/iZettle/Lift.svg?branch=master)](https://travis-ci.org/iZettle/Lift)
@@ -90,8 +90,8 @@ Check the [Usage](#usage) section for more information and examples.
 
 ## Requirements
 
-- Xcode `9.1+`
-- Swift 4.0
+- Xcode `9.3+`
+- Swift 4.1
 - Platforms:
   * iOS `9.0+`
   * macOS `10.11+`
@@ -105,7 +105,7 @@ Check the [Usage](#usage) section for more information and examples.
 #### [Carthage](https://github.com/Carthage/Carthage)
 
 ```shell
-github "iZettle/Lift" >= 1.0
+github "iZettle/Lift" >= 2.0
 ```
 
 #### [Cocoa Pods](https://github.com/CocoaPods/CocoaPods)
@@ -115,7 +115,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'Your App Target' do
-  pod 'Lift', '~> 1.0'
+  pod 'Lift', '~> 2.0'
 end
 ```
 
@@ -128,7 +128,7 @@ let package = Package(
   name: "Your Package Name",
   dependencies: [
       .Package(url: "https://github.com/iZettle/Lift.git",
-               majorVersion: 1)
+               majorVersion: 2)
   ]
 )
 ```
@@ -221,11 +221,10 @@ let jar: Jar = ["val": 5]
 let jar: Jar = [1, 2, 3]
 ```
 
-When building nested hierarchies you have to cast nested non-primitive values<sup id="a1">[1](#f1)</sup>:
+You can also build nested hierarchies:
 
 ```swift
-let jar: Jar = [5, ["val": [1, 2] as Jar] as Jar] // Use either `as`
-let jar: Jar = [5, Jar(["val": Jar([1, 2])])] // or Jar(...)
+let jar: Jar = [5, ["val": [1, 2]]]
 ```
 
 And of course you can also build JSON from your custom types:
@@ -321,10 +320,10 @@ var jar: Jar = ["val": 1]
 jar["optional"] = optional // -> {"val": 1}
 ```
 
-It is also possible to add your optional inline<sup id="a1">[1](#f1)</sup>:
+It is also possible to add your optional inline:
 
 ```swift
-var jar: Jar = ["val": 1, "optional": Jar(optional)] // -> {"val": 1}
+var jar: Jar = ["val": 1, "optional": optional] // -> {"val": 1}
 ```
 
 If you actually want a JSON null value you can use the constant `null`:
@@ -366,7 +365,9 @@ You sometimes need to transform the values extracted from a `Jar` before using t
 
 ```swift
 typealias User = (name: String, age: Int)
-let users: [User] = try jar.map { (jar: Jar) in try (jar["name"]^, jar["age"]^) }
+let users: [User] = try (jar^ as [Jar]).map { jar in 
+  try (jar["name"]^, jar["age"]^) 
+}
 ```
 
 Or when your type does not conform to `JarRepresentable`, as it might need some additional initialization data:
@@ -374,12 +375,12 @@ Or when your type does not conform to `JarRepresentable`, as it might need some 
 ```swift
 let account: Account = ...
 
-let payments: [Payment] = try jar["payments"].map { jar in
-  Payment(jar: jar, account: account)
+let payments: [Payment] = try (jar["payments"]^ as Array).map {
+  Payment(jar: $0, account: account)
 }
 ```
 
-Even though you can use `map` for additional initialization data, often it is more convenient to add this data to the jar's context instead. Jar contexts will be described further down.
+Even though you can manually transform values to add additional initialization data, it is often more convenient to add this data to the jar's context instead. Jar contexts will be described further down.
 
 ### Beyond JSON
 
@@ -534,7 +535,7 @@ extension FlowLayout: JarRepresentable {
       case let .product(uuid):
         return ["type": "Product", "uuid": uuid]
       case let .folder(name, items):
-        return ["type": "Folder", "name": name, "items": Jar(items)]
+        return ["type": "Folder", "name": name, "items": items]
     }
   }
 }
@@ -647,9 +648,3 @@ Lift was developed, evolved and field-tested over the course of several years, a
 To learn more about how Lift's APIs turned the way they did, we recommend reading the article:
 
 - [API Design - Deriving Lift](https://medium.com/izettle-engineering/deriving-lift-d83f8b6d0b38)
-
-<hr>
-
-<b id="f1">1</b> Currently arrays and optionals requires an explicit casting due to compiler limitations. When Swift adds support for conditional conformances this work-around should no longer be necessary. [↩](#a1)
-
-

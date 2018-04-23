@@ -23,7 +23,7 @@ public extension Jar {
             return self[index] as Jar
         }
         set {
-            arrayReplace(at: index, with: { [ try newValue.asJar(using: $0).asAny() ] })
+            arrayReplace(at: index, with: { try newValue.asJar(using: $0).asAnyOptional().map { [$0] } ?? [] })
         }
     }
     
@@ -44,49 +44,25 @@ public extension Jar {
                     return Jar(object: .error(LiftError("Index out of bounds", key: "", context: self)), context: context, key: key)
                 }
                 return Jar(object: Object(array[index]), context: context, key: key)
-            default:
+            case .jarRepresentable(let jarRepresentable):
+                return jarRepresentable.asJar(using: context)[index]
+            case .dictionary, .primitive:
                 return Jar(object: .error(LiftError("Not an array", key: "", context: self)), context: context, key: self.key)
             }
         }
         set {
-            arrayReplace(at: index, with: { _ in [ try newValue.asAny() ] })
+            arrayReplace(at: index, with: { _ in try newValue.asAnyOptional().map { [$0] } ?? [] })
         }
     }
     
     /// Appends a `jar` to `self` if `self` is an array or set `self` to an array holding `jar` if not
     mutating func append(_ value: JarRepresentable) {
-        arrayReplace(at: nil, with: { [ try value.asJar(using: $0).asAny() ] })
+        arrayReplace(at: nil, with: { try value.asJar(using: $0).asAnyOptional().map { [$0] } ?? [] })
     }
     
     /// Appends a `jar` to `self` if `self` is an array or set `self` to an array holding `jar` if not
     mutating func append(_ jar: Jar) {
         append(jar as JarRepresentable)
-    }
-}
-
-
-/// Lift an array value out of a Jar
-public postfix func ^<T: Liftable>(jar: Jar) throws -> [T] where T.To == T {
-    return try jar.assertNotNil(jar.array, "Not an array").enumerated().map { i, any in
-        let itemJar = Jar(object: Jar.Object(any), context: jar.context, key: { jar.key() + "[\(i)]" })
-        return try T.lift(from: itemJar)
-    }
-}
-
-/// Lift an optional array value out of a Jar
-public postfix func ^<T: Liftable>(jar: Jar) throws -> [T]? where T.To == T {
-    return try jar.map { try $0^ }
-}
-
-public extension Jar {
-    /// Lifts an array of type `[T]` and applies `transform` to it's elements
-    func map<T: Liftable, O>(_ transform: (T) throws -> O) throws -> [O] where T.To == T {
-        return try (self^).map(transform)
-    }
-    
-    /// Lifts an array of type `[T]`, and if not nil, applies `transform` to it's elements
-    func map<T: Liftable, O>(_ transform: (T) throws -> O) throws -> [O]? where T.To == T {
-        return try map { try $0.map(transform) }
     }
 }
 
@@ -99,7 +75,11 @@ private extension Jar {
             object = .array([ (nil, toAny) ])
         case let .primitive(val):
             object = .array([ (nil, val), (nil, toAny) ])
-        default:
+        case let .jarRepresentable(jarRepresentable):
+            var jar = jarRepresentable.asJar(using: context)
+            jar.arrayReplace(at: range, with: toAny)
+            object = jar.object
+        case .dictionary, .error, .null:
             object = .error(LiftError("Not an array", context: self))
         }
     }

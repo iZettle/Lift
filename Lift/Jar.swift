@@ -25,55 +25,14 @@ public struct Jar {
 public extension Jar {
     /// Creates an empty instance not containing any value.
     init() {
-        object = .none(context: { "" })
+        object = .none { "" }
     }
- 
+    
     /// Creates an instance wrapping a primitive `value` conforming to `JarRepresentable`
     init(_ value: JarRepresentable) {
-        object = .primitive({ try value.asJar(using: $0).asAny() })
-    }
-    
-    /// Creates an instance wrapping a dictionary with values conforming to `JarRepresentable`
-    init<S: CustomStringConvertible, T: JarRepresentable>(_ dictionary: [S: T]) {
-        object = .dictionary([{ context in
-            var result = [String: Any]()
-            for (key, val) in dictionary {
-                result[key.description] = try val.asJar(using: context).object.optionallyUnwrap(context)
-            }
-            return result
-        }])
-    }
-    
-    /// Creates an instance wrapping a dictionary with values conforming to `JarRepresentable`
-    init<S: CustomStringConvertible>(_ dictionary: [S: JarRepresentable]) {
-        object = .dictionary([{ context in
-            var result = [String: Any]()
-            for (key, val) in dictionary {
-                result[key.description] = try val.asJar(using: context).object.optionallyUnwrap(context)
-            }
-            return result
-        }])
-    }
-    
-    /// Creates an instance wrapping an array with values conforming to `JarRepresentable`
-    init<S: Sequence>(_ elements: S) where S.Iterator.Element: JarRepresentable {
-        object = .array([ (nil, { context in
-            try elements.map { $0.asJar(using: context) }.flatMap {
-                return try $0.object.optionallyUnwrap($0.context).flatMap { $0 }
-            }
-        })])
+        object = .jarRepresentable(value)
     }
 
-    /// Creates an instance wrapping an optional value conforming to `JarRepresentable`
-    init(_ value: Optional<JarRepresentable>) {
-        switch value {
-        case let val?:
-            self.init(val)
-        case nil:
-            self.init()
-        }
-    }
-    
     /// Creates a `Jar` from an unknown `Any` value that might come from deserializing JSON etc.
     /// All leaf nodes that are `JarRepresentable` will be dropped down to `Any`
     /// - Throws: Unless `value` conform to `JarRepresentable`, or if the `value` is an array with elements conforming to `JarRepresentable`, or if `value` is a dictionary with `String` keys and values conforming to `JarRepresentable`
@@ -113,34 +72,11 @@ public typealias Null = NSNull
 /// null value for explicit marking of nulls in jar's
 public let null = Null()
 
-public extension Jar {
-    /// Lifts a value of type `T` and applies `transform` to it
-    func map<T: Liftable, O>(_ transform: (T) throws -> O) throws -> O where T.To == T {
-        let value: T = try self^
-        do {
-            return try transform(value)
-        } catch let error as LiftError {
-            throw LiftError(error: error, key: self.key(), context: self)
-        }
-    }
-    
-    /// Lifts a value of type `T` if not nil and applies `transform` to it
-    func map<T: Liftable, O>(_ transform: (T) throws -> O) throws -> O? where T.To == T {
-        return try map { try $0.map(transform) }
-    }
-}
-
-
 postfix operator ^
 
 /// Lift a value out of a Jar
 public postfix func ^<T: Liftable>(jar: Jar) throws -> T where T.To == T {
     return try T.lift(from: jar)
-}
-
-/// Lift an optional value out of a Jar
-public postfix func ^<T: Liftable>(jar: Jar) throws -> T? where T.To == T {
-    return try jar.map { try $0^ }
 }
 
 extension Jar: JarConvertible, JarRepresentable  {
@@ -152,19 +88,6 @@ extension Jar: JarConvertible, JarRepresentable  {
     
     public var jar: Jar {
         return self
-    }
-}
-
-extension Jar {
-    func map<U>(_ f: (Jar) throws -> U) throws -> U? {
-        switch self.object {
-        case .none: return nil
-        case let .error(error as LiftError): throw LiftError(error: error, key: self.key(), context: self)
-        case let .error(error): throw error
-        // If we don't explicty try to extract null and the value is null just return nil
-        case .null where !(null is U): return nil
-        default: return try f(self)
-        }
     }
 }
 
@@ -181,6 +104,14 @@ extension Jar {
             } catch {
                 return error.localizedDescription
             }
+        }
+    }
+    
+    func asAnyOptional() throws -> Any? {
+        do {
+            return try object.optionallyUnwrap(context)
+        } catch let error as LiftError {
+            throw LiftError(error: error, key: self.key(), context: self)
         }
     }
 }
