@@ -48,11 +48,11 @@ extension Jar: ExpressibleByStringLiteral {
     public init(unicodeScalarLiteral value: String) {
         self.init(object: .primitive(value.asJar))
     }
-    
+
     public init(extendedGraphemeClusterLiteral value: String) {
         self.init(object: .primitive(value.asJar))
     }
-    
+
     public init(stringLiteral value: String) {
         self.init(object: .primitive(value.asJar))
     }

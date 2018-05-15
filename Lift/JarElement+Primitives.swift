@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 extension String: JarConvertible, JarRepresentable {
     public init(jar: Jar) throws {
         switch try jar.asAny() {
@@ -17,7 +16,7 @@ extension String: JarConvertible, JarRepresentable {
         default: throw jar.assertionFailedToConvert(to: String.self)
         }
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: self)
     }
@@ -33,7 +32,7 @@ extension Bool: JarElement {
     public init(jar: Jar) throws {
         self = try jar.convert()
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: NSNumber(value: self))
     }
@@ -43,7 +42,7 @@ extension Int: JarElement {
     public init(jar: Jar) throws {
         self = try jar.assertFitsIn(Int(exactly: jar.int64()))
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: NSNumber(value: self))
     }
@@ -53,7 +52,7 @@ extension Int16: JarElement {
     public init(jar: Jar) throws {
         self = try jar.assertFitsIn(Int16(exactly: jar.int64()))
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: NSNumber(value: self))
     }
@@ -63,7 +62,7 @@ extension Int32: JarElement {
     public init(jar: Jar) throws {
         self = try jar.assertFitsIn(Int32(exactly: jar.int64()))
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: NSNumber(value: self))
     }
@@ -73,7 +72,7 @@ extension Int64: JarElement {
     public init(jar: Jar) throws {
         self = try jar.int64()
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: NSNumber(value: self))
     }
@@ -93,7 +92,7 @@ extension Float: JarElement {
     public init(jar: Jar) throws {
         self = try jar.convert()
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: NSNumber(value: self))
     }
@@ -119,7 +118,7 @@ extension Null: Liftable, JarRepresentable {
             throw jar.assertionFailure("Value not convertible to NSNull")
         }
     }
-    
+
     public var jar: Jar {
         return Jar(unchecked: self)
     }
@@ -177,7 +176,7 @@ extension URL: JarElement {
     public init(jar: Jar) throws {
         self = try jar.assertNotNil(URL(string: jar^), "Invalid URL")
     }
-    
+
     public var jar: Jar {
         return Jar(absoluteString)
     }
@@ -188,7 +187,7 @@ public extension RawRepresentable where Self: JarElement, RawValue: JarElement, 
         let value: RawValue = try jar^
         self = try jar.assertNotNil(Self(rawValue: value), "Could not find case matching raw value \(value) for enum \(Self.self)")
     }
-    
+
     var jar: Jar {
         return Jar(rawValue)
     }
@@ -227,7 +226,7 @@ private extension Jar {
     func assertionFailedToConvert<T>(to type: T.Type) -> LiftError {
         return assertionFailure("Value `\(contextDescription)` is not convertible to \(type)")
     }
-    
+
     func assertFitsIn<T>(_ val: T?) throws -> T {
         return try assertNotNil(val, "Value `\(contextDescription)` does not fit in \(T.self)")
     }

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public extension Jar {
     /// Returns the wrapped value if it's an array and it is successfully converted
     var array: [Any]? {
@@ -26,7 +25,7 @@ public extension Jar {
             arrayReplace(at: index, with: { try newValue.asJar(using: $0).asAnyOptional().map { [$0] } ?? [] })
         }
     }
-    
+
     /// Extract the element at `index` and return it in a `Jar`
     /// When a value is lifted out of the returned jar it might throw if `self` is not an array or if the access was out of bounds.
     /// - Note: Setting a value where `self` is not an array or if the index is out of bounds will trap.
@@ -34,7 +33,7 @@ public extension Jar {
     subscript(index: Int) -> Jar {
         get {
             let key: () -> String = { self.key() + "[\(index)]" }
-            
+
             switch object {
             case .error, .none, .null:
                 return Jar(object: object, context: context, key: self.key)
@@ -54,12 +53,12 @@ public extension Jar {
             arrayReplace(at: index, with: { _ in try newValue.asAnyOptional().map { [$0] } ?? [] })
         }
     }
-    
+
     /// Appends a `jar` to `self` if `self` is an array or set `self` to an array holding `jar` if not
     mutating func append(_ value: JarRepresentable) {
         arrayReplace(at: nil, with: { try value.asJar(using: $0).asAnyOptional().map { [$0] } ?? [] })
     }
-    
+
     /// Appends a `jar` to `self` if `self` is an array or set `self` to an array holding `jar` if not
     mutating func append(_ jar: Jar) {
         append(jar as JarRepresentable)

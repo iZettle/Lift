@@ -1,9 +1,7 @@
-<p align="center">
-<img src="https://github.com/iZettle/Lift/blob/master/lift-logo.png?raw=true" width="140px" />
-</p>
+<img src="https://github.com/iZettle/Lift/blob/master/lift-logo.png?raw=true" height="140px" />
 
 [![Build Status](https://travis-ci.org/iZettle/Lift.svg?branch=master)](https://travis-ci.org/iZettle/Lift)
-[![Plaforms](https://img.shields.io/badge/platform-%20iOS%20|%20macOS%20|%20tvOS%20|%20linux-gray.svg)](https://img.shields.io/badge/platform-%20iOS%20|%20macOS%20|%20tvOS%20|%20linux-gray.svg)
+[![Platforms](https://img.shields.io/badge/platform-%20iOS%20|%20macOS%20|%20tvOS%20|%20linux-gray.svg)](https://img.shields.io/badge/platform-%20iOS%20|%20macOS%20|%20tvOS%20|%20linux-gray.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Swift Package Manager Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
