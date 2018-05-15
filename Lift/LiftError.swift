@@ -12,15 +12,14 @@ import Foundation
 public struct LiftError: Error, CustomStringConvertible {
     /// The description of the error
     public let description: String
-    
+
     /// The key (path) to where the error occured. Helpful for debugging.
     public let key: String
-    
+
     /// The context jar. Helpful for debugging.
     public var context: String { return _context() }
     fileprivate let _context: () -> String
 }
-
 
 public extension LiftError {
     /// Creates an instance with a `description`.
@@ -31,7 +30,7 @@ public extension LiftError {
 
 extension LiftError: CustomNSError {
     public static var errorDomain: String { return "com.izettle.lift" }
-    public var errorUserInfo: [String : Any] {
+    public var errorUserInfo: [String: Any] {
         return [NSLocalizedDescriptionKey: "LiftError(description: \(description), key: \(key), context: \(context))"]
     }
 }
@@ -41,14 +40,14 @@ public extension Jar {
     func assertionFailure(_ description: @autoclosure () -> String = "Assertion failure") -> LiftError {
         return LiftError(description(), context: self)
     }
-    
+
     /// Will throw a `LiftError` if `condition` is false using `self` to construct the error's key and context
     func assert(_ condition: @autoclosure () throws -> Bool, _ description: @autoclosure () -> String = "Assertion failure") throws {
         if try !condition() {
             throw LiftError(description(), context: self)
         }
     }
-    
+
     /// Will throw a `LiftError` if `val` is nil using `self` to construct the error's key and context
     func assertNotNil<T>(_ val: T?, _ description: @autoclosure () -> String = "Expected value missing") throws -> T {
         switch val {
@@ -78,16 +77,14 @@ extension LiftError {
         description = error.description
         _context = { error.context.isEmpty ? jar.contextDescription : error.context }
     }
-    
+
     init(_ description: String, key: String, context: @escaping () -> String) {
         self.key = key
         self.description = description
         _context = context
     }
-    
+
     init(_ description: String, key: String? = nil, context jar: Jar) {
         self.init(description, key: key ?? jar.key(), context: { jar.contextDescription })
     }
 }
-
-

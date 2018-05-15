@@ -12,7 +12,7 @@ public extension Data {
     /// Construct a JSON string `Data` from a `Jar`
     init(json jar: Jar, prettyPrinted: Bool = true) throws {
         let any = try jar.asAny()
-        
+
         if any is [Any] || any is [String: Any] {
             self = try JSONSerialization.data(withJSONObject: try jar.asAny(), options: prettyPrinted ? .prettyPrinted : [])
         } else if any is Null {
@@ -36,7 +36,7 @@ public extension String {
         let data = try Data(json: jar, prettyPrinted: prettyPrinted)
         self = try jar.assertNotNil(String(data: data, encoding: .utf8))
     }
-    
+
     /// Construct a JSON `String` from a `JarRepresentable`
     init(json jarRepresentable: JarRepresentable, prettyPrinted: Bool = true) throws {
         try self.init(json: jarRepresentable.jar, prettyPrinted: prettyPrinted)
@@ -48,12 +48,12 @@ public extension Jar {
     init(json data: Data) throws {
         try self.init(unchecked: JSONSerialization.jsonObject(with: data, options: .allowFragments))
     }
-    
+
     /// Construct a `Jar` from the content of the `json` string
     init(json string: String) throws {
         try self.init(json: string.data(using: String.Encoding.utf8).assertNotNil("Not an UTF8 string"))
     }
-    
+
     /// Construct a `Jar` from the JSON at `url`
     init(json url: URL) throws {
         let data = try Data(contentsOf: url)
@@ -69,7 +69,7 @@ extension Jar: CustomStringConvertible, CustomDebugStringConvertible {
             return error.localizedDescription
         }
     }
-    
+
     public var debugDescription: String {
         return description
     }

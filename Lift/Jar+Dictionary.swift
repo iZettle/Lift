@@ -13,7 +13,7 @@ public extension Jar {
     var dictionary: [String: Any]? {
         return (try? object.asAny(context)) as? [String: Any]
     }
-    
+
     /// Set the element at `key` to a value conforming to `JarRepresentable`
     /// - Note: Setting a value where `self` is not a dictionary will update the wrapped value to become a dictionry holding the value.
     /// - Note: The getter is typically never used. Instead use the subscript overload the returns a `Jar`
@@ -30,7 +30,7 @@ public extension Jar {
             }
         }
     }
-    
+
     /// Access the element at `key` and return it in a `Jar`
     /// When a value is lifted out of the jar it might throw if `self` is not a dictionary or if the key is missing and the lift is non-optional
     /// - Note: Setting a value where `self` is not a dictionary will update the wrapped to become a dictionry holding the value.
@@ -41,7 +41,7 @@ public extension Jar {
                 let k = self.key()
                 return k + (k.isEmpty ? "" : ".") + key
             }
-            
+
             switch object {
             case .error, .none, .null:
                 return Jar(object: object, context: context, key: self.key)
@@ -57,8 +57,7 @@ public extension Jar {
             dictionaryAppend({ _ in try newValue.asAnyOptional().map { [ key: $0] } ?? [:] })
         }
     }
-    
-    
+
     /// Returns a new jar containing the union of self and `value`
     /// - Note: If both `self` and `value` contains the same key, `value`'s will be used
     func union(_ value: JarRepresentable) -> Jar {
@@ -66,7 +65,7 @@ public extension Jar {
         new.formUnion(value)
         return new
     }
-    
+
     /// Updates self to be the union between self and `value`
     /// - Note: If both `self` and `value` contains the same key, `value`'s will be used
     mutating func formUnion(_ value: JarRepresentable) {
@@ -92,4 +91,3 @@ private extension Jar {
         }
     }
 }
-

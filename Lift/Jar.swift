@@ -27,7 +27,7 @@ public extension Jar {
     init() {
         object = .none { "" }
     }
-    
+
     /// Creates an instance wrapping a primitive `value` conforming to `JarRepresentable`
     init(_ value: JarRepresentable) {
         object = .jarRepresentable(value)
@@ -85,7 +85,7 @@ extension Jar: JarConvertible, JarRepresentable  {
         context = jar.context
         key = jar.key
     }
-    
+
     public var jar: Jar {
         return self
     }
@@ -106,7 +106,7 @@ extension Jar {
             }
         }
     }
-    
+
     func asAnyOptional() throws -> Any? {
         do {
             return try object.optionallyUnwrap(context)
@@ -118,7 +118,7 @@ extension Jar {
 
 struct _Droppable: JarRepresentable {
     let any: Any
-    
+
     var jar: Jar {
         return Jar(unchecked: any)
     }
@@ -149,11 +149,11 @@ private extension Jar {
         if case .none = object { return nil }
         return self
     }
-    
+
     func unwrap() throws -> Any {
         return try object.unwrap(context)
     }
-    
+
     var objectName: String {
         if case .error = object { return "error" }
         do {

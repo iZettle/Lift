@@ -55,12 +55,11 @@ public extension JarRepresentable {
         }
         return jar.union(context: context)
     }
-    
+
     func asJar(using contextValues: JarContextValue?...) -> Jar {
         return asJar(using: Jar.Context(contextValues))
     }
 }
-
 
 extension Optional: JarRepresentable where Wrapped: JarRepresentable {
     public var jar: Jar {
@@ -95,7 +94,6 @@ extension Optional: JarConvertible where Wrapped: JarConvertible, Wrapped.To == 
     }
 }
 
-
 extension Array: JarRepresentable where Element: JarRepresentable {
     public var jar: Jar {
         return Jar(object: .array([ (nil, { context in
@@ -121,7 +119,6 @@ extension Array: JarConvertible where Element: JarConvertible, Element.To == Ele
         self = try [Element].lift(from: jar)
     }
 }
-
 
 extension Dictionary: JarRepresentable where Key: CustomStringConvertible, Value: JarRepresentable  {
     public var jar: Jar {
@@ -154,5 +151,3 @@ extension Dictionary: JarConvertible where Key: JarConvertible, Value: JarConver
         self = try [Key: Value].lift(from: jar)
     }
 }
-
-

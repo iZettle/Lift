@@ -37,7 +37,7 @@ public extension Jar {
             self.init(vals)
         }
     }
-    
+
     /// Creates a union between `self` context and `val`, where `val` context values will be replacing the same context value's in `self`'s context if they already exists
     func union(context val: JarContextValue?) -> Jar {
         var jar = self
@@ -65,7 +65,7 @@ public extension Jar.Context {
     public func get<T: JarContextValue>(_ type: T.Type = T.self) throws -> T {
         return try (vals[String(reflecting: type)] as? T).assertNotNil("The Jar context does not contain any value of type: \(type)")
     }
-    
+
     /// Get a value of a certain type out of the context or return nil if it does not exists
     public func get<T: JarContextValue>(_ type: T?.Type = T?.self) -> T? {
         return vals[String(reflecting: T.self)].map { $0 as! T }

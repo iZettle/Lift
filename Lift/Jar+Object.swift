@@ -8,14 +8,13 @@
 
 import Foundation
 
-
 extension Jar {
     init(object: Object, context: Context = [], key: @escaping () -> String = { "" }) {
         self.object = object
         self.context = context
         self.key = key
     }
-    
+
     /// Internal representation to avoid repetitive value conversions as well as handling error and absent states
     enum Object {
         case none(context: () -> String) /// Contains no value (nil), such as when subscripting using a key into a Jar return a Jar representing a absence of a value
@@ -40,10 +39,10 @@ extension Jar {
                 self = .primitive { _ in object }
             }
         }
-        
+
         /// Used by .dictionary mark removal of items.
         struct RemoveElement {}
-        
+
         func optionallyUnwrap(_ context: Context) throws -> Any? {
             switch self {
             case .none: return nil
@@ -91,19 +90,19 @@ extension Jar {
                 throw error
             }
         }
-        
+
         func unwrap(_ context: Context) throws -> Any {
             if case let .none(context) = self {
                 throw LiftError("Value missing", key: "", context: context)
             }
             return try optionallyUnwrap(context)!
         }
-        
+
         func asAny(_ context: Context) throws -> Any? {
             if case .error = self { return nil }
             return try optionallyUnwrap(context)
         }
     }
-    
+
     typealias ToAny = (Context) throws -> Any
 }
