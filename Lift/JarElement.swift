@@ -82,7 +82,7 @@ extension Optional: Liftable where Wrapped: Liftable, Wrapped.To == Wrapped {
         case .null where type(of: Wrapped.self) != type(of: Null.self):
             return .none
         case .jarRepresentable(let jarRepresentable):
-            return try lift(from: jarRepresentable.jar)
+            return try lift(from: jarRepresentable.asJar(using: jar.context))
         default:
             return try Wrapped.lift(from: jar)
         }

@@ -693,6 +693,12 @@ class JarTests: XCTestCase {
         let jar = Jar([SetsContextType(), SetsContextType()])
         print(try String(json: jar))
     }
+
+    func testOptionalArrayWithContext() throws {
+        let jar: Jar = Jar(Optional([4, 5]))
+
+        let _: [NeedContextType]? = try jar.union(context: MyContext())^
+    }
 }
 
 struct MyContext: JarContextValue {

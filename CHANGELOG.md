@@ -1,3 +1,7 @@
+# 2.0.1
+
+- Fixed a bug with forwarding the jar context when using some combinations of nested containers.
+
 # 2.0
 
 - Added support for Swift 4.1 conditional conformance by making `Optional`, `Array` and `Dictionary` to optionally conform to `JarElement`. 
