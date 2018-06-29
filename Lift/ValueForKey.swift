@@ -41,8 +41,8 @@ public extension MutatingValueForKey where Self: AnyObject {
     subscript(key: String) -> JarRepresentable? {
         get { return value(forKey: key).map(_Droppable.init) }
         nonmutating set {
-            var s = self
-            try! s.set(newValue?.asJar(using: []).asAny(), forKey: key)
+            var `self` = self
+            try! `self`.set(newValue?.asJar(using: []).asAny(), forKey: key)
         }
     }
 }
@@ -64,8 +64,8 @@ public extension MutatingValueForKey where Self: AnyObject {
     subscript(key: String) -> Jar {
         get { return Jar(object: Jar.Object(value(forKey: key)), key: { key }) }
         nonmutating set {
-            var s = self
-            try! s.set(newValue.object.asAny([]), forKey: key)
+            var `self` = self
+            try! `self`.set(newValue.object.asAny([]), forKey: key)
         }
     }
 }

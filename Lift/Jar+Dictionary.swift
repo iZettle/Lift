@@ -37,20 +37,20 @@ public extension Jar {
     /// - Note: The setter is typically never used. Instead use the subscript overload the takes a `JarRepresentable`
     subscript(key: String) -> Jar {
         get {
-            let _key: () -> String = {
-                let k = self.key()
-                return k + (k.isEmpty ? "" : ".") + key
+            let subscriptKey: () -> String = {
+                let evaluatedKey = self.key()
+                return evaluatedKey + (evaluatedKey.isEmpty ? "" : ".") + key
             }
 
             switch object {
             case .error, .none, .null:
                 return Jar(object: object, context: context, key: self.key)
             case .dictionary:
-                return Jar(object: Object(dictionary?[key]), context: context, key: _key)
+                return Jar(object: Object(dictionary?[key]), context: context, key: subscriptKey)
             case .jarRepresentable(let jarRepresentable):
                 return jarRepresentable.asJar(using: context)[key]
             case .array, .primitive:
-                return Jar(object: .error(LiftError("Not a dictionary", key: "", context: self)), context: context, key: _key)
+                return Jar(object: .error(LiftError("Not a dictionary", key: "", context: self)), context: context, key: subscriptKey)
             }
         }
         set {
