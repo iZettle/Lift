@@ -1,3 +1,7 @@
+# 2.0.2
+
+- Linting
+
 # 2.0.1
 
 - Fixed a bug with forwarding the jar context when using some combinations of nested containers.

@@ -79,7 +79,7 @@ public postfix func ^<T: Liftable>(jar: Jar) throws -> T where T.To == T {
     return try T.lift(from: jar)
 }
 
-extension Jar: JarConvertible, JarRepresentable  {
+extension Jar: JarConvertible, JarRepresentable {
     public init(jar: Jar) throws {
         object = jar.object
         context = jar.context

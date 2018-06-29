@@ -1,4 +1,3 @@
-
 //
 //  JarElement.swift
 //  Lift
@@ -107,8 +106,8 @@ extension Array: JarRepresentable where Element: JarRepresentable {
 extension Array: Liftable where Element: Liftable, Element.To == Element {
     public typealias To = [Element]
     public static func lift(from jar: Jar) throws -> [Element] {
-        return try jar.assertNotNil(jar.array, "Not an array").enumerated().map { i, any in
-            let itemJar = Jar(object: Jar.Object(any), context: jar.context, key: { jar.key() + "[\(i)]" })
+        return try jar.assertNotNil(jar.array, "Not an array").enumerated().map { index, any in
+            let itemJar = Jar(object: Jar.Object(any), context: jar.context, key: { jar.key() + "[\(index)]" })
             return try Element.lift(from: itemJar)
         }
     }
@@ -120,9 +119,9 @@ extension Array: JarConvertible where Element: JarConvertible, Element.To == Ele
     }
 }
 
-extension Dictionary: JarRepresentable where Key: CustomStringConvertible, Value: JarRepresentable  {
+extension Dictionary: JarRepresentable where Key: CustomStringConvertible, Value: JarRepresentable {
     public var jar: Jar {
-        return Jar(object: .dictionary([{ context in
+        return Jar(object: .dictionary([ { context in
             var result = [String: Any]()
             for (key, val) in self {
                 result[key.description] = try val.asJar(using: context).object.optionallyUnwrap(context)
