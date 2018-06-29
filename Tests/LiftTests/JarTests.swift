@@ -10,6 +10,7 @@ import XCTest
 import Lift
 import Foundation
 
+//swiftlint:disable identifier_name
 class JarTests: XCTestCase {
     func testInteger() throws {
         let original = 4711
@@ -75,13 +76,13 @@ class JarTests: XCTestCase {
     }
 
     func testDecimalNumber() throws {
-        let d = NSDecimalNumber(string: "123456789.123456789")
-        let j = Jar(["amount": d])
+        let number = NSDecimalNumber(string: "123456789.123456789")
+        let j = Jar(["amount": number])
         let json = try String(json: j, prettyPrinted: false)
         XCTAssertEqual(json, "{\"amount\":\"123456789.123456789\"}")
 
-        let d2: NSDecimalNumber = try j["amount"]^
-        XCTAssertEqual(d, d2)
+        let number2: NSDecimalNumber = try j["amount"]^
+        XCTAssertEqual(number, number2)
     }
 
     func testURL() throws {
@@ -262,11 +263,11 @@ class JarTests: XCTestCase {
 
     func testUserDefaults() throws {
         UserDefaults.standard["test"] = 4711
-        let i: Int = try UserDefaults.standard["test"]^
-        XCTAssertEqual(i, 4711)
+        let int1: Int = try UserDefaults.standard["test"]^
+        XCTAssertEqual(int1, 4711)
         UserDefaults.standard["test"] = "Hello"
-        let s: String = try UserDefaults.standard["test"]^
-        XCTAssertEqual(s, "Hello")
+        let string: String = try UserDefaults.standard["test"]^
+        XCTAssertEqual(string, "Hello")
 
         UserDefaults.standard["test"] = nil
         UserDefaults.standard["test"] = Jar([1, 2, 4])
@@ -275,8 +276,8 @@ class JarTests: XCTestCase {
         print(UserDefaults.standard.object(forKey: "test") as Any)
 
         UserDefaults.standard["test"] = Jar(["obj": Jar(["val": 4])])
-        let i2: Int = try UserDefaults.standard["test"]["obj"]["val"]^
-        XCTAssertEqual(i2, 4)
+        let int2: Int = try UserDefaults.standard["test"]["obj"]["val"]^
+        XCTAssertEqual(int2, 4)
 
 //        let n = NSNotification(name: "Test", object: nil, userInfo: ["val": 45])
 //        let ni: Int = try n["val"]^
@@ -329,8 +330,8 @@ class JarTests: XCTestCase {
         let json: Jar = ["enum": MyEnum.two]
         let str: String = try json["enum"]^
         XCTAssertEqual(str, "two")
-        let e: MyEnum = try json["enum"]^
-        XCTAssertEqual(e, MyEnum.two)
+        let `enum`: MyEnum = try json["enum"]^
+        XCTAssertEqual(`enum`, MyEnum.two)
     }
 
     func testNull() throws {
@@ -653,12 +654,12 @@ class JarTests: XCTestCase {
 
     func testAsDictionary() throws {
         let jar: Jar = ["a": 1, "b": 1.1, "c": "1", "d": "1.1", "e": "str"]
-        let d = jar.dictionary!
-        XCTAssert(d["a"] is Int)
-        XCTAssert(d["b"] is Double)
-        XCTAssert(d["c"] is String)
-        XCTAssert(d["d"] is String)
-        XCTAssert(d["e"] is String)
+        let dict = jar.dictionary!
+        XCTAssert(dict["a"] is Int)
+        XCTAssert(dict["b"] is Double)
+        XCTAssert(dict["c"] is String)
+        XCTAssert(dict["d"] is String)
+        XCTAssert(dict["e"] is String)
     }
 
     func testJarContext() throws {
@@ -802,8 +803,8 @@ func XCTAssertThrows<T>(_ expression: @autoclosure () throws -> T, _ message: St
 
 func path(_ path: String) -> (Error) -> Bool {
     return { error in
-        guard case let e as LiftError = error else { return false }
-        return e.key == path
+        guard case let liftError as LiftError = error else { return false }
+        return liftError.key == path
     }
 }
 

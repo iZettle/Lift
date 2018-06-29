@@ -17,7 +17,7 @@ public extension Data {
             self = try JSONSerialization.data(withJSONObject: try jar.asAny(), options: prettyPrinted ? .prettyPrinted : [])
         } else if any is Null {
             self = try jar.assertNotNil("null".data(using: .utf8))
-        } else if let n = any as? NSNumber, String(cString: n.objCType) == "c" {
+        } else if let number = any as? NSNumber, String(cString: number.objCType) == "c" {
             self = try jar.assertNotNil("\((any as? Bool) ?? any)".data(using: .utf8))
         } else {
             self = try jar.assertNotNil("\(any)".data(using: .utf8))

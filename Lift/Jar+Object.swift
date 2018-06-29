@@ -32,7 +32,7 @@ extension Jar {
             case is Null:
                 self = .null
             case let dictionary as [String: Any]:
-                self = .dictionary([{ _ in dictionary}])
+                self = .dictionary([ { _ in dictionary}])
             case let array as [Any]:
                 self = .array([(nil, { context in array })])
             case let object?:
@@ -77,11 +77,11 @@ extension Jar {
                 }
                 return result
             case let .primitive(val):
-                let v = try val(context)
-                if let jar = v as? Jar {
+                let value = try val(context)
+                if let jar = value as? Jar {
                     return try jar.object.unwrap(context)
                 } else {
-                    return v
+                    return value
                 }
             case let .jarRepresentable(jarRepresentable):
                 let jar = jarRepresentable.asJar(using: context)

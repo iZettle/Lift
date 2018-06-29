@@ -1,4 +1,3 @@
-
 //
 //  JarElement.swift
 //  Lift
@@ -120,9 +119,9 @@ extension Array: JarConvertible where Element: JarConvertible, Element.To == Ele
     }
 }
 
-extension Dictionary: JarRepresentable where Key: CustomStringConvertible, Value: JarRepresentable  {
+extension Dictionary: JarRepresentable where Key: CustomStringConvertible, Value: JarRepresentable {
     public var jar: Jar {
-        return Jar(object: .dictionary([{ context in
+        return Jar(object: .dictionary([ { context in
             var result = [String: Any]()
             for (key, val) in self {
                 result[key.description] = try val.asJar(using: context).object.optionallyUnwrap(context)
