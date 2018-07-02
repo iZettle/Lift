@@ -112,8 +112,8 @@ extension NSNumber: JarRepresentable {
 extension Null: Liftable, JarRepresentable {
     public static func lift(from jar: Jar) throws -> NSNull {
         switch try jar.asAny() {
-        case let v as NSNull:
-            return v
+        case let value as NSNull:
+            return value
         default:
             throw jar.assertionFailure("Value not convertible to NSNull")
         }
@@ -137,12 +137,12 @@ extension UUID: JarElement {
 extension NSDecimalNumber: Liftable {
     public static func lift(from jar: Jar) throws -> NSDecimalNumber {
         switch try jar.asAny() {
-        case let v as NSDecimalNumber:
-            return v
-        case let v as NSNumber:
-            return NSDecimalNumber(string: v.description)
-        case let v as String:
-            return NSDecimalNumber(string: v)
+        case let value as NSDecimalNumber:
+            return value
+        case let value as NSNumber:
+            return NSDecimalNumber(string: value.description)
+        case let value as String:
+            return NSDecimalNumber(string: value)
         default:
             throw jar.assertionFailedToConvert(to: self)
         }
@@ -151,10 +151,10 @@ extension NSDecimalNumber: Liftable {
 
 public extension DateFormatter {
     @nonobjc static let iso8601: DateFormatter = {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "en_US_POSIX")
-        f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-        return f;
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        return formatter
     }()
 }
 
@@ -194,7 +194,7 @@ public extension RawRepresentable where Self: JarElement, RawValue: JarElement, 
 }
 
 private extension Jar {
-    func convert<T>() throws -> T  {
+    func convert<T>() throws -> T {
         guard let val = try (asAny() as? T) else {
             throw jar.assertionFailedToConvert(to: T.self)
         }
@@ -206,16 +206,16 @@ private extension Jar {
 private extension Jar {
     func int64() throws -> Int64 {
         switch try asAny() {
-        case let v as Int:
-            return Int64(v)
-        case let v as Int64:
-            return v
-        case let v as NSNumber:
-            guard let val = Int64(v.stringValue) else { throw assertionFailedToConvert(to: type(of: Int64.self)) }
-            return val
-        case let v as String:
-            guard let val = Int64(v) else { throw assertionFailedToConvert(to: type(of: Int64.self)) }
-            return val
+        case let value as Int:
+            return Int64(value)
+        case let value as Int64:
+            return value
+        case let value as NSNumber:
+            guard let number = Int64(value.stringValue) else { throw assertionFailedToConvert(to: type(of: Int64.self)) }
+            return number
+        case let value as String:
+            guard let number = Int64(value) else { throw assertionFailedToConvert(to: type(of: Int64.self)) }
+            return number
         default:
             throw assertionFailedToConvert(to: type(of: Int64.self))
         }
