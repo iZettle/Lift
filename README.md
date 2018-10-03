@@ -85,6 +85,7 @@ Check the [Usage](#usage) section for more information and examples.
 	- [Handling errors](#handling-errors)
 - [Field tested](#field-tested)
 - [Learn more](#learn-more)
+- [Collaborate](#collaborate)
 
 ## Requirements
 
