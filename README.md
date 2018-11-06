@@ -85,6 +85,7 @@ Check the [Usage](#usage) section for more information and examples.
 	- [Handling errors](#handling-errors)
 - [Field tested](#field-tested)
 - [Learn more](#learn-more)
+- [Collaborate](#collaborate)
 
 ## Requirements
 
@@ -640,6 +641,10 @@ let payment: Payment = try jar.union(context: currency)["payment"]^
 ## Field tested
 
 Lift was developed, evolved and field-tested over the course of several years, and is pervasively used in [iZettle](https://izettle.com)'s highly acclaimed point of sales app for communicating with iZettle's comprehensive set of backend services.
+
+## Collaborate
+
+You can collaborate with us on our Slack workspace. Ask questions, share ideas or maybe just participate in ongoing discussions. To get an invitation, write to us at [ios-oss@izettle.com](mailto:ios-oss@izettle.com)
 
 ## Learn more
 
