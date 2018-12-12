@@ -13,4 +13,3 @@ script:
 - xcodebuild -showsdks
 - swift -version
 - sh build.sh "$COMMAND"
-
