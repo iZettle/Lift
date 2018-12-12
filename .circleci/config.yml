@@ -8,20 +8,26 @@ jobs:
     macos:
       xcode: "9.3"
     steps:
-    - set -o pipefail
-    - xcodebuild -version
-    - xcodebuild -showsdks
-    - swift -version
-    - sh build.sh test-iOS
+      - run:
+          name: test iOS
+          command: |
+            set -o pipefail
+            xcodebuild -version
+            xcodebuild -showsdks
+            swift -version
+            sh build.sh test-iOS
   test-native:
     macos:
       xcode: "9.3"
     steps:
-    - set -o pipefail
-    - xcodebuild -version
-    - xcodebuild -showsdks
-    - swift -version
-    - sh build.sh test-native
+      - run:
+          name: test native
+          command: |
+            set -o pipefail
+            xcodebuild -version
+            xcodebuild -showsdks
+            swift -version
+            sh build.sh test-native
 
 workflows:
   version: 2
