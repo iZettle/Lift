@@ -6,7 +6,7 @@ env:
 jobs:
   test-iOS:
     macos:
-      xcode: "9.3"
+      xcode: "10.1"
     steps:
       - run:
           name: test iOS
@@ -18,7 +18,7 @@ jobs:
             sh build.sh test-iOS
   test-native:
     macos:
-      xcode: "9.3"
+      xcode: "10.1"
     steps:
       - run:
           name: test native
