@@ -5,9 +5,11 @@ env:
   - LANG=en_US.UTF-8
 jobs:
   test-iOS:
+    #working_directory: /Users/distiller/project
     macos:
-      xcode: "10.1.0"
+      xcode: "9.3.0"
     steps:
+      - checkout
       - run:
           name: test iOS
           command: |
@@ -16,10 +18,13 @@ jobs:
             xcodebuild -showsdks
             swift -version
             sh build.sh test-iOS
+
   test-native:
+    #working_directory: /Users/distiller/project
     macos:
-      xcode: "10.1.0"
+      xcode: "9.3.0"
     steps:
+      - checkout
       - run:
           name: test native
           command: |
