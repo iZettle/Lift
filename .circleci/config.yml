@@ -5,7 +5,6 @@ env:
   - LANG=en_US.UTF-8
 jobs:
   test-iOS:
-    #working_directory: /Users/distiller/project
     macos:
       xcode: "9.3.0"
     steps:
@@ -20,7 +19,6 @@ jobs:
             sh build.sh test-iOS
 
   test-native:
-    #working_directory: /Users/distiller/project
     macos:
       xcode: "9.3.0"
     steps:
