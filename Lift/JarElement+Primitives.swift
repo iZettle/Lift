@@ -163,7 +163,7 @@ extension DateFormatter: JarContextValue {}
 extension Date: JarConvertible, JarRepresentableWithContext {
     public init(jar: Jar) throws {
         let formatter: DateFormatter = jar.context.get() ?? .iso8601
-        self = try jar.assertNotNil(formatter.date(from: jar^), "Date failed to convert using formatter with dateFormat: \(formatter.dateFormat)")
+        self = try jar.assertNotNil(formatter.date(from: jar^), "Date failed to convert using formatter with dateFormat: \(formatter.dateFormat ?? "nil")")
     }
 
     public func asJar(using context: Jar.Context) -> Jar {
