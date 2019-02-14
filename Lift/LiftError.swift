@@ -10,8 +10,8 @@ import Foundation
 
 /// `LiftError` holds besides a description of the Error the `key` (or path) to where the error occured.
 public struct LiftError: Error, CustomStringConvertible {
-    /// The description of the error
-    public let description: String
+    /// The error message
+    public let message: String
 
     /// The key (path) to where the error occured. Helpful for debugging.
     public let key: String
@@ -19,6 +19,11 @@ public struct LiftError: Error, CustomStringConvertible {
     /// The context jar. Helpful for debugging.
     public var context: String { return _context() }
     fileprivate let _context: () -> String
+
+    /// The description of the error
+    public var description: String {
+        return "LiftError(message: '\(message)', key: '\(key)')"
+    }
 }
 
 public extension LiftError {
@@ -31,7 +36,7 @@ public extension LiftError {
 extension LiftError: CustomNSError {
     public static var errorDomain: String { return "com.izettle.lift" }
     public var errorUserInfo: [String: Any] {
-        return [NSLocalizedDescriptionKey: "LiftError(description: \(description), key: \(key), context: \(context))"]
+        return [NSLocalizedDescriptionKey: description]
     }
 }
 
@@ -74,17 +79,17 @@ extension Optional {
 extension LiftError {
     init(error: LiftError, key: String, context jar: Jar) {
         self.key = key.isEmpty ? error.key : key + ((error.key.isEmpty || error.key.hasPrefix("[")) ? error.key : ( "." + error.key))
-        description = error.description
+        self.message = error.message
         _context = { error.context.isEmpty ? jar.contextDescription : error.context }
     }
 
-    init(_ description: String, key: String, context: @escaping () -> String) {
+    init(_ message: String, key: String, context: @escaping () -> String) {
         self.key = key
-        self.description = description
+        self.message = message
         _context = context
     }
 
-    init(_ description: String, key: String? = nil, context jar: Jar) {
-        self.init(description, key: key ?? jar.key(), context: { jar.contextDescription })
+    init(_ message: String, key: String? = nil, context jar: Jar) {
+        self.init(message, key: key ?? jar.key(), context: { jar.contextDescription })
     }
 }
