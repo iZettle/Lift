@@ -1,3 +1,8 @@
+# 2.1.0
+
+- Made the `description` of `LiftError` more useful by adding the `message` field.  
+
+
 # 2.0.2
 
 - Linting

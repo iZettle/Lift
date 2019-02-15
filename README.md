@@ -546,7 +546,7 @@ Because JSON is typically nested, it is useful to extend errors with some positi
 
 ```swift
 struct LiftError: Error {
-  let description: String
+  let message: String
   let key: String
   let context: String
 }

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Lift"
-  s.version      = "2.0.2"
+  s.version      = "2.1.0"
   s.summary      = "Working with JSON-like structures"
   s.description  = <<-DESC
                    Lift is a Swift library for generating and extracting values into and out of JSON-like structures.
