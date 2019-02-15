@@ -104,7 +104,7 @@ Check the [Usage](#usage) section for more information and examples.
 #### [Carthage](https://github.com/Carthage/Carthage)
 
 ```shell
-github "iZettle/Lift" >= 2.0
+github "iZettle/Lift" >= 3.0
 ```
 
 #### [Cocoa Pods](https://github.com/CocoaPods/CocoaPods)
@@ -114,7 +114,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'Your App Target' do
-  pod 'Lift', '~> 2.0'
+  pod 'Lift', '~> 3.0'
 end
 ```
 
@@ -127,7 +127,7 @@ let package = Package(
   name: "Your Package Name",
   dependencies: [
       .Package(url: "https://github.com/iZettle/Lift.git",
-               majorVersion: 2)
+               majorVersion: 3)
   ]
 )
 ```
