@@ -1,4 +1,4 @@
-# 3.0.0
+# 2.1.0
 
 - Made the `description` of `LiftError` more useful by adding the `message` field.  
 
