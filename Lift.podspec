@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/iZettle/Lift.git", :tag => "#{s.version}" }
   s.source_files = "Lift/*.{swift}"
-  s.swift_version = '4.1'
+  s.swift_version = '5.0'
 end
