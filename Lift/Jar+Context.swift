@@ -48,26 +48,26 @@ public extension Jar {
 
 public extension Jar.Context {
     /// Mutating version of `union`
-    public mutating func formUnion(_ context: JarContextValue?) {
+    mutating func formUnion(_ context: JarContextValue?) {
         for (key, val) in context?.context.vals ?? [:] {
             self.vals[key] = val
         }
     }
 
     /// Creates a union between `self` and `val`, where `val`'s context values will be replacing the same context value's in `self` if they already exists
-    public func union(_ val: JarContextValue?) -> Jar.Context {
+    func union(_ val: JarContextValue?) -> Jar.Context {
         var context = self
         context.formUnion(val)
         return context
     }
 
     /// Get a value of a certain type out of the context or throw if it does not exists
-    public func get<T: JarContextValue>(_ type: T.Type = T.self) throws -> T {
+    func get<T: JarContextValue>(_ type: T.Type = T.self) throws -> T {
         return try (vals[String(reflecting: type)] as? T).assertNotNil("The Jar context does not contain any value of type: \(type)")
     }
 
     /// Get a value of a certain type out of the context or return nil if it does not exists
-    public func get<T: JarContextValue>(_ type: T?.Type = T?.self) -> T? {
+    func get<T: JarContextValue>(_ type: T?.Type = T?.self) -> T? {
         return vals[String(reflecting: T.self)].map { $0 as! T }
     }
 }

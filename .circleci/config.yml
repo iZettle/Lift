@@ -6,7 +6,7 @@ env:
 jobs:
   test-iOS:
     macos:
-      xcode: "10.1.0"
+      xcode: "10.2.0"
     steps:
       - checkout
       - run:
@@ -20,7 +20,7 @@ jobs:
 
   test-native:
     macos:
-      xcode: "10.1.0"
+      xcode: "10.2.0"
     steps:
       - checkout
       - run:

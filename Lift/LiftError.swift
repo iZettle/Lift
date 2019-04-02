@@ -28,7 +28,7 @@ public struct LiftError: Error, CustomStringConvertible {
 
 public extension LiftError {
     /// Creates an instance with a `description`.
-    public init(_ description: String) {
+    init(_ description: String) {
         self.init(description, key: "", context: { "" })
     }
 }
@@ -59,7 +59,7 @@ public extension Jar {
         case let val?:
             return val
         case nil:
-            throw assertionFailure(description)
+            throw assertionFailure(description())
         }
     }
 }
