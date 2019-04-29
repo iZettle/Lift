@@ -423,6 +423,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos watchsimulator watchos appletvos appletvsimulator";
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64";
 			};
 			name = Debug;
 		};
@@ -443,6 +444,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos watchsimulator watchos appletvos appletvsimulator";
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64";
 			};
 			name = Release;
 		};
