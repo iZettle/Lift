@@ -422,6 +422,7 @@
 				PRODUCT_NAME = Lift;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos watchsimulator watchos appletvos appletvsimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 5.0;
 				VALID_ARCHS = "i386 x86_64";
 			};
