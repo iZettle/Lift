@@ -97,7 +97,7 @@ class JarTests: XCTestCase {
     }
 
     func testJarToJar() throws {
-        var jar: Jar = ["val1": 1, "val2": 2]
+        let jar: Jar = ["val1": 1, "val2": 2]
         let jar1: Jar = jar["val1"]
         let jar2: Jar = try jar["val1"]^
         XCTAssertEqual(try jar1^, 1)
