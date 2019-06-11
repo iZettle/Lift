@@ -18,8 +18,17 @@ import Foundation
 /// For a value to be liftable it must conform to `Liftable` or `JarConvertible`
 public struct Jar {
     internal var object: Object
-    internal var key: () -> String = { "" } // Capturing of the current key used for lazy evaluation (to avoid a peformance hit for happy cases)
     public var context: Context = []
+    internal var key: () -> String = { "" } // Capturing of the current key used for lazy evaluation (to avoid a peformance hit for happy cases)
+
+    // Use auto-generated initializer in swift 5.1
+    #if swift(<5.1)
+    internal init(object: Object, context: Context = [], key: @escaping () -> String = { "" }) {
+        self.object = object
+        self.context = context
+        self.key = key
+    }
+    #endif
 }
 
 public extension Jar {

@@ -9,11 +9,6 @@
 import Foundation
 
 extension Jar {
-    init(object: Object, context: Context = [], key: @escaping () -> String = { "" }) {
-        self.object = object
-        self.context = context
-        self.key = key
-    }
 
     /// Internal representation to avoid repetitive value conversions as well as handling error and absent states
     enum Object {
