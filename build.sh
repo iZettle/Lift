@@ -7,8 +7,8 @@ set -o pipefail
 PROJECT="Lift.xcodeproj"
 SCHEME="Lift"
 
-IOS_SDK="iphonesimulator13.0"
-IOS_DESTINATION="OS=13.0,name=iPhone 8"
+IOS_SDK="${IOS_SDK:-"iphonesimulator13.0"}"
+IOS_DESTINATION_PHONE="${IOS_DESTINATION_PHONE:-"OS=13.0,name=iPhone Xs"}"
 
 usage() {
 cat << EOF
@@ -39,7 +39,7 @@ case "$COMMAND" in
     -project $PROJECT \
     -scheme "${SCHEME}" \
     -sdk "${IOS_SDK}" \
-    -destination "${IOS_DESTINATION}" \
+    -destination "${IOS_DESTINATION_PHONE}" \
     -configuration Debug ONLY_ACTIVE_ARCH=YES \
     CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
     build | xcpretty -c
@@ -56,7 +56,7 @@ case "$COMMAND" in
     -project $PROJECT \
     -scheme "${SCHEME}" \
     -sdk "${IOS_SDK}" \
-    -destination "${IOS_DESTINATION}" \
+    -destination "${IOS_DESTINATION_PHONE}" \
     -configuration Release \
     ONLY_ACTIVE_ARCH=YES \
     CODE_SIGNING_REQUIRED=NO \
