@@ -6,7 +6,7 @@ env:
     - LANG=en_US.UTF-8
 
 jobs:
-  test-iOS:
+  test-xcode11-ios13:
     macos:
       xcode: "11.0.0"
     steps:
@@ -14,13 +14,9 @@ jobs:
       - run:
           name: test iOS
           command: |
-            set -o pipefail
-            xcodebuild -version
-            xcodebuild -showsdks
-            swift -version
-            sh build.sh test-iOS
+            fastlane test
 
-  test-iOS12:
+  test-xcode10-ios12:
     macos:
       xcode: "10.2.0"
     steps:
@@ -28,32 +24,11 @@ jobs:
       - run:
           name: test iOS
           command: |
-            set -o pipefail
-            xcodebuild -version
-            xcodebuild -showsdks
-            swift -version
-            IOS_SDK="iphonesimulator12.2" \
-                IOS_DESTINATION_PHONE="OS=12.2,name=iPhone Xs" \
-                sh build.sh test-iOS
-
-  test-native:
-    macos:
-      xcode: "11.0.0"
-    steps:
-      - checkout
-      - run:
-          name: test native
-          command: |
-            set -o pipefail
-            xcodebuild -version
-            xcodebuild -showsdks
-            swift -version
-            sh build.sh test-native
+            fastlane test
 
 workflows:
   version: 2
   build-and-test:
     jobs:
-      - test-iOS
-      - test-iOS12
-      - test-native
+      - test-xcode10-ios12
+      - test-xcode11-ios13
