@@ -8,3 +8,7 @@ xcuserdata
 
 # ignore all Carthage output
  Carthage/
+
+# ignore fastlane output
+fastlane/report.xml
+test_output/*
