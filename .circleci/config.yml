@@ -6,9 +6,9 @@ env:
     - LANG=en_US.UTF-8
 
 jobs:
-  test-xcode11-ios13:
+  test-xcode10-ios12:
     macos:
-      xcode: "11.0.0"
+      xcode: "10.3.0"
     steps:
       - checkout
       - run:
@@ -16,9 +16,9 @@ jobs:
           command: |
             fastlane test
 
-  test-xcode10-ios12:
+  test-xcode11-ios13:
     macos:
-      xcode: "10.2.0"
+      xcode: "11.0.0"
     steps:
       - checkout
       - run:
