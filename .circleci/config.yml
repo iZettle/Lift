@@ -7,7 +7,7 @@ env:
 
 commands:
   test_and_store_results:
-    description: "Builds and tests the project"
+    description: "Builds and tests the project and then stores the results of the tests as artifacts and test results report"
     steps:
       - checkout
       - run:
@@ -17,10 +17,10 @@ commands:
               SCAN_PROJECT: "Lift.xcodeproj"
               SCAN_SCHEME: "Lift"
               SCAN_DEVICE: "iPhone Xs"
-      - store_artifacts:
-          path: test_output
-          destination: test_output
-      - store_test_results:
+      - store_artifacts: # This will by default store an html and junit file as artifacts (See "Artifacts" tab in CircleCI report)
+          path: test_output # test_output is the default temporary folder for fastlane scan output
+          destination: test_output # This will create a sub structure in the artifacts section in CircleCI
+      - store_test_results: # This will store the test results so you can then see them in the "Test Summary" tab in CircleCI report
           path: test_output
 
 jobs:
