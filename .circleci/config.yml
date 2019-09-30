@@ -1,45 +1,43 @@
-version: 2
+version: 2.1
 
 env:
   global:
     - LC_CTYPE=en_US.UTF-8
     - LANG=en_US.UTF-8
 
+commands:
+  test_and_store_results:
+    description: "Builds and tests the project"
+    steps:
+      - checkout
+      - run:
+          name: test iOS
+          command: fastlane scan
+          environment:
+              SCAN_PROJECT: "Lift.xcodeproj"
+              SCAN_SCHEME: "Lift"
+              SCAN_DEVICE: "iPhone Xs"
+      - store_artifacts:
+          path: test_output
+          destination: test_output
+      - store_test_results:
+          path: test_output
+
 jobs:
   test-xcode10-ios12:
     macos:
       xcode: "10.3.0"
     steps:
-      - checkout
-      - run:
-          name: test iOS
-          command: fastlane scan
-          environment:
-              SCAN_PROJECT: "Lift.xcodeproj"
-              SCAN_SCHEME: "Lift"
-              SCAN_DEVICE: "iPhone Xs"
-      - store_artifacts:
-          path: test_output
-          destination: test_output
-
+      - test_and_store_results
+      
   test-xcode11-ios13:
     macos:
       xcode: "11.0.0"
     steps:
-      - checkout
-      - run:
-          name: test iOS
-          command: fastlane scan
-          environment:
-              SCAN_PROJECT: "Lift.xcodeproj"
-              SCAN_SCHEME: "Lift"
-              SCAN_DEVICE: "iPhone Xs"
-      - store_artifacts:
-          path: test_output
-          destination: test_output
+      - test_and_store_results
 
 workflows:
-  version: 2
+  version: 2.1
   build-and-test:
     jobs:
       - test-xcode10-ios12
