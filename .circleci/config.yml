@@ -15,9 +15,12 @@ jobs:
           name: test iOS
           command: fastlane scan
           environment:
-            SCAN_PROJECT: "Lift.xcodeproj"
-            SCAN_SCHEME: "Lift"
-            SCAN_DEVICE: "iPhone Xs"
+              SCAN_PROJECT: "Lift.xcodeproj"
+              SCAN_SCHEME: "Lift"
+              SCAN_DEVICE: "iPhone Xs"
+      - store_artifacts:
+          path: test_output
+          destination: test_output
 
   test-xcode11-ios13:
     macos:
@@ -28,9 +31,12 @@ jobs:
           name: test iOS
           command: fastlane scan
           environment:
-            SCAN_PROJECT: "Lift.xcodeproj"
-            SCAN_SCHEME: "Lift"
-            SCAN_DEVICE: "iPhone Xs"
+              SCAN_PROJECT: "Lift.xcodeproj"
+              SCAN_SCHEME: "Lift"
+              SCAN_DEVICE: "iPhone Xs"
+      - store_artifacts:
+          path: test_output
+          destination: test_output
 
 workflows:
   version: 2
