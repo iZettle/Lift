@@ -3,7 +3,7 @@
 //  Lift
 //
 //  Created by Måns Bernhardt on 2016-05-23.
-//  Copyright © 2016 iZettle. All rights reserved.
+//  Copyright © 2016 PayPal Inc. All rights reserved.
 //
 
 import Foundation
