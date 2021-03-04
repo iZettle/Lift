@@ -1,3 +1,7 @@
+# 2.2.1
+
+- Enable Swift 5.1 compatibility.
+
 # 2.1.0
 
 - Made the `description` of `LiftError` more useful by adding the `message` field.  
