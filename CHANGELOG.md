@@ -1,3 +1,7 @@
+# 2.3.0
+
+- Xcode 12.4 compatibility
+
 # 2.2.1
 
 - Enable Swift 5.1 compatibility.
