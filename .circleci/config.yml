@@ -36,9 +36,16 @@ jobs:
     steps:
       - test_and_store_results
 
+  test-xcode12-ios14:
+    macos:
+      xcode: "12.4.0"
+    steps:
+      - test_and_store_results
+
 workflows:
   version: 2.1
   build-and-test:
     jobs:
       - test-xcode10-ios12
       - test-xcode11-ios13
+      - test-xcode12-ios14
