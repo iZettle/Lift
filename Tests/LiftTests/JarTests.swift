@@ -254,7 +254,7 @@ class JarTests: XCTestCase {
     }
 
     func testArrayOfTuples() throws {
-        let jar: Jar = [["Adam", 25 as Jar], ["Eve", 20]]
+        let jar: Jar = [["Adam", 25 as Jar], ["Eve", 20 as Jar]]
         typealias NameAndAge = (name: String, age: Int)
         let nameAndAges: [NameAndAge] = try (jar^ as [Jar]).map { jar in try (jar[0]^, jar[1]^) }
         XCTAssertEqual(nameAndAges[0].name, "Adam")

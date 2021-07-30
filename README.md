@@ -4,6 +4,7 @@
 [![Platforms](https://img.shields.io/badge/platform-%20iOS%20|%20macOS%20|%20tvOS%20|%20linux-gray.svg)](https://img.shields.io/badge/platform-%20iOS%20|%20macOS%20|%20tvOS%20|%20linux-gray.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Swift Package Manager Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+![Xcode version](https://img.shields.io/badge/Xcode-13.0.0-blue)
 
 Lift is a Swift library for generating and extracting values into and out of JSON-like data structures. Lift was carefully designed to meet the following requirements:
 
