@@ -105,7 +105,7 @@ Check the [Usage](#usage) section for more information and examples.
 #### [Carthage](https://github.com/Carthage/Carthage)
 
 ```shell
-github "iZettle/Lift" >= 2.0
+github "iZettle/Lift" >= 2.3
 ```
 
 #### [Cocoa Pods](https://github.com/CocoaPods/CocoaPods)
@@ -115,7 +115,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'Your App Target' do
-  pod 'Lift', '~> 2.0'
+  pod 'Lift', '~> 2.3'
 end
 ```
 
