@@ -420,7 +420,6 @@
 				INFOPLIST_FILE = Lift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path/../Frameworks @executable_path/../Frameworks";
-				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Lift;
 				PRODUCT_NAME = Lift;
 				SKIP_INSTALL = YES;
@@ -441,7 +440,6 @@
 				INFOPLIST_FILE = Lift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path/../Frameworks @executable_path/../Frameworks";
-				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Lift;
 				PRODUCT_NAME = Lift;
 				SKIP_INSTALL = YES;
