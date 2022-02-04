@@ -36,6 +36,8 @@ public extension Jar {
         public init(_ vals: JarContextValue?...) {
             self.init(vals)
         }
+
+        public func getVals() -> [String: Any] { vals }
     }
 
     /// Creates a union between `self` context and `val`, where `val` context values will be replacing the same context value's in `self`'s context if they already exists
