@@ -1,3 +1,6 @@
+# 2.4.1
+- Make vals dictionary retrievable from Jar.Context so it can be used in compatibility code with other encoding systems like Codable. 
+
 # 2.4.0
 
 - Xcode 13.0 compatibility
