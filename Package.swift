@@ -14,7 +14,7 @@ let package = Package(
             name: "Lift",
             dependencies: [],
             path: "Lift",
-            exclude: ["Lift/Info.plist"]),
+            exclude: ["Info.plist"]),
         .testTarget(
             name: "LiftTests",
             dependencies: ["Lift"]),
