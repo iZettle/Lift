@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Lift",
-    platform: [
+    platforms: [
         .iOS(.v10)
     ],
     products: [
