@@ -1,3 +1,6 @@
+# 2.5.2
+- Update Package.swift manifest
+
 # 2.5.1
 - Make vals dictionary retrievable from Jar.Context so it can be used in compatibility code with other encoding systems like Codable. 
 
