@@ -1,3 +1,6 @@
+# 2.5.3
+- Fix Package.swift manifest
+
 # 2.5.2
 - Update Package.swift manifest
 
