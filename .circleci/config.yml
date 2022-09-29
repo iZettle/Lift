@@ -23,16 +23,16 @@ commands:
       - store_test_results: # This will store the test results so you can then see them in the "Test Summary" tab in CircleCI report
           path: test_output
 
-jobs:
-  test-xcode12-ios14:
-    macos:
-      xcode: "12.5.0"
-    steps:
-      - test_and_store_results
-      
+jobs:      
   test-xcode13-ios15:
     macos:
       xcode: "13.0.0"
+    steps:
+      - test_and_store_results
+
+  test-xcode14-ios16:
+    macos:
+      xcode: "14.0.0"
     steps:
       - test_and_store_results
 
@@ -40,5 +40,5 @@ workflows:
   version: 2.1
   build-and-test:
     jobs:
-      - test-xcode12-ios14
       - test-xcode13-ios15
+      - test-xcode14-ios16
